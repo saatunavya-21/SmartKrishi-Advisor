@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Dashboard - Smart Krishi Advisor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #eef7ee;
+            color: #263b2a;
+        }
+
+        header {
+            background: #2e7d32;
+            color: white;
+            padding: 20px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        header a.logout-btn {
+            color: white;
+            text-decoration: none;
+            background: #c0392b;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        header a.logout-btn:hover {
+            background: #a93226;
+        }
+
+        .welcome {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .welcome h2 {
+            color: #2e7d32;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #555;
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            padding: 20px 35px 40px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-top: 4px solid #2e7d32;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card h3 {
+            color: #2e7d32;
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .card a.btn {
+            background: #2e7d32;
+            color: white;
+            padding: 11px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+
+        .card a.btn:hover {
+            background: #1b5e20;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>🌱 Smart Krishi Advisor</h2>
+    <a class="logout-btn" th:href="@{/buyer/logout}">Logout</a>
+</header>
+
+<section class="welcome">
+    <h2>
+        Welcome, <span th:text="${buyerName}"></span>!
+    </h2>
+    <p>Agribusiness Buyer Procurement & Market Intelligence Dashboard</p>
+</section>
+
+<section class="features">
+
+    <div class="card">
+        <div>
+            <h3>🌾 Browse Farmer Produce</h3>
+            <p>Explore crops listed directly by local farmers with live quantities, units, locations, and expected rates.</p>
+        </div>
+        <div>
+            <a class="btn" th:href="@{/buyer/produce}">View Available Produce</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h3>📋 Submit Crop Demand</h3>
+            <p>Submit procurement purchase requirements specifying required crop, quantity, unit, and delivery district.</p>
+        </div>
+        <div>
+            <a class="btn" th:href="@{/buyer/crop-demand}">Submit & View Demands</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h3>📊 Market Price Comparison</h3>
+            <p>Compare reference agricultural prices across regional mandis to ensure competitive trade and fair valuation.</p>
+        </div>
+        <div>
+            <a class="btn" th:href="@{/buyer/market-prices}">View Benchmark Prices</a>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

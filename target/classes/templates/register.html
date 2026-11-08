@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Registration - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef7ee;
+            margin: 0;
+            padding: 30px;
+            color: #263b2a;
+        }
+
+        .container {
+            background: white;
+            max-width: 520px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #176b35;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #176b35;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #125228;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .footer-links a {
+            color: #176b35;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h2>👨‍🌾 Farmer Registration</h2>
+    <p class="subtitle">Join Smart Krishi Advisor for smart agricultural advisory and market connectivity</p>
+
+    <div th:if="${message}" class="success" th:text="${message}"></div>
+    <div th:if="${errorMessage}" class="error" th:text="${errorMessage}"></div>
+
+    <form th:action="@{/register}" method="post">
+
+        <label>Farmer Name</label>
+        <input type="text" name="name" placeholder="Enter your full name" required>
+
+        <label>Password</label>
+        <input type="password" name="password" minlength="6" placeholder="Choose a secure password" required>
+
+        <label>Mobile Number</label>
+        <input type="tel" name="phone" placeholder="10-digit mobile number" required>
+
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="e.g. farmer@example.com" required>
+
+        <label>Village</label>
+        <input type="text" name="village" placeholder="Enter village name" required>
+
+        <label>District</label>
+        <input type="text" name="district" placeholder="Enter district" required>
+
+        <label>State</label>
+        <input type="text" name="state" placeholder="Enter state" required>
+
+        <label>Land Area (Acres)</label>
+        <input type="number" name="landArea" step="0.01" min="0.01" placeholder="e.g. 5.5" required>
+
+        <label>Soil Type</label>
+        <select name="soilType" required>
+            <option value="">Select Soil Type</option>
+            <option value="Red Soil">Red Soil</option>
+            <option value="Black Soil">Black Soil</option>
+            <option value="Alluvial Soil">Alluvial Soil</option>
+            <option value="Sandy Soil">Sandy Soil</option>
+            <option value="Clay Soil">Clay Soil</option>
+        </select>
+
+        <button type="submit">Complete Farmer Registration</button>
+
+    </form>
+
+    <div class="footer-links">
+        Already registered? <a th:href="@{/login}">Log in here</a>
+        <br><br>
+        <a th:href="@{/}">← Back to Homepage</a>
+    </div>
+</div>
+</body>
+</html>

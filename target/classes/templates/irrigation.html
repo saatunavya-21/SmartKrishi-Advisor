@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irrigation Advice - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef7ee;
+            padding: 30px;
+            color: #263b2a;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            text-align: center;
+            color: #176b35;
+            margin-top: 0;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 22px;
+            background: #176b35;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #125228;
+        }
+
+        .result {
+            background: #eaf6ea;
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: 8px;
+            border-left: 5px solid #176b35;
+        }
+
+        .result h3 {
+            margin-top: 0;
+            color: #176b35;
+            font-size: 18px;
+        }
+
+        .advice-box {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 12px;
+            border: 1px solid #d4edda;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            background: #176b35;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            background: #125228;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>💧 Smart Irrigation Advisory</h2>
+    <p class="subtitle">Receive crop-specific water management guidelines and moisture scheduling</p>
+
+    <form th:action="@{/irrigation}" method="post">
+
+        <label>Crop Type</label>
+        <select name="crop" required>
+            <option value="">Select Crop</option>
+            <option value="Rice" th:selected="${crop == 'Rice'}">Rice (Paddy)</option>
+            <option value="Cotton" th:selected="${crop == 'Cotton'}">Cotton</option>
+            <option value="Maize" th:selected="${crop == 'Maize'}">Maize (Corn)</option>
+            <option value="Groundnut" th:selected="${crop == 'Groundnut'}">Groundnut</option>
+            <option value="Millets" th:selected="${crop == 'Millets'}">Millets / Sorghum</option>
+        </select>
+
+        <label>Soil Type</label>
+        <select name="soilType" required>
+            <option value="">Select Soil Type</option>
+            <option value="Red Soil" th:selected="${soilType == 'Red Soil'}">Red Soil</option>
+            <option value="Black Soil" th:selected="${soilType == 'Black Soil'}">Black Soil</option>
+            <option value="Sandy Soil" th:selected="${soilType == 'Sandy Soil'}">Sandy Soil</option>
+            <option value="Clay Soil" th:selected="${soilType == 'Clay Soil'}">Clay Soil</option>
+            <option value="Alluvial Soil" th:selected="${soilType == 'Alluvial Soil'}">Alluvial Soil</option>
+        </select>
+
+        <label>Water Availability on Farm</label>
+        <select name="waterAvailability" required>
+            <option value="">Select Water Availability</option>
+            <option value="Low" th:selected="${waterAvailability == 'Low'}">Low (Deficit / Dryland)</option>
+            <option value="Medium" th:selected="${waterAvailability == 'Medium'}">Medium (Borewell / Periodic)</option>
+            <option value="High" th:selected="${waterAvailability == 'High'}">High (Canal / Perennial Supply)</option>
+        </select>
+
+        <button type="submit">Calculate Irrigation Schedule</button>
+
+    </form>
+
+    <div class="result" th:if="${advice != null}">
+
+        <h3>🌱 Recommended Irrigation Strategy:</h3>
+
+        <div style="font-size:13px; color:#555; margin-bottom:10px;">
+            Target Crop: <strong th:text="${crop}"></strong> | Soil: <strong th:text="${soilType}"></strong> | Water Resource: <strong th:text="${waterAvailability}"></strong>
+        </div>
+
+        <div class="advice-box">
+            <p style="margin:0;" th:text="${advice}"></p>
+        </div>
+
+    </div>
+
+    <div style="text-align:center;">
+        <a class="back" th:href="@{/dashboard}">← Back to Farmer Dashboard</a>
+    </div>
+
+</div>
+
+</body>
+</html>

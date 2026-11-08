@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Agricultural Produce - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f5f0;
+            padding: 30px;
+            color: #263b2a;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        header {
+            background: #176b35;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+            color: #176b35;
+            margin-top: 0;
+            border-bottom: 2px solid #e8f5e9;
+            padding-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button.btn-submit {
+            background: #176b35;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        button.btn-submit:hover {
+            background: #125228;
+        }
+
+        .msg-success {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .msg-error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #176b35;
+            color: white;
+            font-size: 14px;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fbf9;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            background: #176b35;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>🌾 Farmer Produce Management</h1>
+    </header>
+
+    <div th:if="${message}" class="msg-success" th:text="${message}"></div>
+    <div th:if="${errorMessage}" class="msg-error" th:text="${errorMessage}"></div>
+
+    <!-- FORM: LIST NEW PRODUCE -->
+    <div class="card">
+        <h2>➕ List Your Agricultural Produce for Buyers</h2>
+
+        <form th:action="@{/produce/add}" method="post">
+            <div class="form-grid">
+                <div>
+                    <label>Crop Name</label>
+                    <input type="text" name="cropName" placeholder="e.g. Wheat, Rice, Cotton" required>
+                </div>
+
+                <div>
+                    <label>Quantity</label>
+                    <input type="number" name="quantity" min="0.01" step="0.01" placeholder="e.g. 50" required>
+                </div>
+
+                <div>
+                    <label>Unit of Measure</label>
+                    <select name="unit" required>
+                        <option value="Quintal">Quintals</option>
+                        <option value="Kg">Kilograms</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Expected Price (₹ per unit)</label>
+                    <input type="number" name="expectedPrice" min="0.01" step="0.01" placeholder="e.g. 2500" required>
+                </div>
+
+                <div>
+                    <label>Crop Quality Grade</label>
+                    <select name="quality" required>
+                        <option value="Premium">Grade A - Premium</option>
+                        <option value="Good" selected>Grade B - Good</option>
+                        <option value="Average">Grade C - Average</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Storage / Farm Location</label>
+                    <input type="text" name="location" placeholder="e.g. Village, District" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Submit Produce Listing</button>
+        </form>
+    </div>
+
+    <!-- TABLE: MY CURRENT PRODUCE LISTINGS -->
+    <div class="card">
+        <h2>📋 My Active Produce Listings</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Crop Name</th>
+                    <th>Quantity Available</th>
+                    <th>Unit</th>
+                    <th>Expected Price</th>
+                    <th>Quality</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="produce : ${myProduceList}">
+                    <td><strong th:text="${produce.cropName}"></strong></td>
+                    <td th:text="${produce.quantity}"></td>
+                    <td th:text="${produce.unit}"></td>
+                    <td th:text="'₹' + ${produce.expectedPrice}" style="font-weight:bold; color:#176b35;"></td>
+                    <td th:text="${produce.quality}"></td>
+                    <td th:text="${produce.location}"></td>
+                    <td>
+                        <form th:action="@{/produce/delete/{id}(id=${produce.id})}" method="post"
+                              onsubmit="return confirm('Are you sure you want to remove this produce listing?');">
+                            <button type="submit" class="btn-delete">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(myProduceList)}">
+                    <td colspan="7" style="padding:20px; color:#666;">
+                        You have not listed any produce yet. Use the form above to add your first crop listing for registered buyers.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="text-align:center;">
+        <a class="back-link" th:href="@{/dashboard}">← Back to Farmer Dashboard</a>
+    </div>
+
+</div>
+
+</body>
+</html>

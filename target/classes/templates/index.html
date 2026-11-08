@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Krishi Advisor - Intelligent Agriculture Platform</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f8f1;
+            color: #263b2a;
+        }
+
+        header {
+            background: #176b35;
+            color: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        header h2 {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .nav-btn {
+            background: white;
+            color: #176b35 !important;
+            font-weight: bold;
+        }
+
+        .hero {
+            padding: 70px 8%;
+            background: linear-gradient(120deg, #e0f3df, #f5fae9);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+            color: #176b35;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 13px 26px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn-primary {
+            background: #176b35;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #125228;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+        }
+
+        .portals {
+            padding: 50px 8%;
+            background: #ffffff;
+        }
+
+        .portals h2 {
+            text-align: center;
+            color: #176b35;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .portals p.section-sub {
+            text-align: center;
+            color: #666;
+            margin-bottom: 35px;
+            font-size: 15px;
+        }
+
+        .portal-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .portal-card {
+            background: #f8fbf8;
+            border: 2px solid #e1efe1;
+            border-radius: 12px;
+            padding: 30px 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: box-shadow 0.2s;
+        }
+
+        .portal-card:hover {
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        .portal-card h3 {
+            color: #176b35;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .portal-card p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .portal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .portal-actions a {
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .features {
+            padding: 55px 8%;
+            text-align: center;
+            background: #f3f8f1;
+        }
+
+        .features h2 {
+            margin-bottom: 35px;
+            color: #176b35;
+            font-size: 28px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            border-top: 4px solid #176b35;
+            text-align: left;
+        }
+
+        .card h3 {
+            color: #176b35;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .card p {
+            line-height: 1.6;
+            color: #555;
+            font-size: 14px;
+        }
+
+        footer {
+            background: #176b35;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #c8e6c9;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>🌱 Smart Krishi Advisor</h2>
+
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a href="#portals">Portals</a>
+        <a href="#features">Features</a>
+        <a th:href="@{/login}" class="nav-btn">Farmer Login</a>
+        <a th:href="@{/buyer/login}" class="nav-btn">Buyer Login</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Empowering Indian Agriculture with Smart Technology</h1>
+
+    <p>
+        Smart Krishi Advisor bridges the gap between farmers, buyers, and agricultural intelligence.
+        Get tailored crop recommendations, localized weather updates, soil analysis, irrigation guidance,
+        and transparent agricultural produce marketing.
+    </p>
+
+    <div class="hero-buttons">
+        <a class="btn btn-primary" th:href="@{/register}">👨‍🌾 Register as Farmer</a>
+        <a class="btn btn-secondary" th:href="@{/buyer/register}">🛒 Register as Buyer</a>
+        <a class="btn btn-primary" th:href="@{/login}">Farmer Login</a>
+        <a class="btn btn-secondary" th:href="@{/buyer/login}">Buyer Login</a>
+    </div>
+</section>
+
+<!-- ACCESS PORTALS -->
+<section class="portals" id="portals">
+    <h2>Agricultural Ecosystem Portals</h2>
+    <p class="section-sub">Select your role to access dedicated farming, buying, or administration tools</p>
+
+    <div class="portal-cards">
+        <div class="portal-card">
+            <div>
+                <h3>👨‍🌾 Farmer Portal</h3>
+                <p>
+                    Access scientific crop recommendations, soil nutrient analysis, real-time agro-met weather updates, irrigation schedules, disease symptoms lookup, and list your farm produce directly for verified buyers.
+                </p>
+            </div>
+            <div class="portal-actions">
+                <a th:href="@{/login}" style="background:#176b35; color:white;">Farmer Login</a>
+                <a th:href="@{/register}" style="background:#e8f5e9; color:#176b35; border:1px solid #176b35;">New Farmer Register</a>
+            </div>
+        </div>
+
+        <div class="portal-card">
+            <div>
+                <h3>🛒 Buyer Portal</h3>
+                <p>
+                    Browse available produce directly from local farmers, check comparative market reference prices across districts, and submit procurement crop demands with required quantities and locations.
+                </p>
+            </div>
+            <div class="portal-actions">
+                <a th:href="@{/buyer/login}" style="background:#2e7d32; color:white;">Buyer Login</a>
+                <a th:href="@{/buyer/register}" style="background:#e8f5e9; color:#2e7d32; border:1px solid #2e7d32;">New Buyer Register</a>
+            </div>
+        </div>
+
+        <div class="portal-card">
+            <div>
+                <h3>🔐 Administrator Console</h3>
+                <p>
+                    Monitor platform activities, manage market price records across mandis, analyze crop demand-supply equilibriums, view statistical charts, and export CSV reports.
+                </p>
+            </div>
+            <div class="portal-actions">
+                <a th:href="@{/admin/login}" style="background:#37474f; color:white;">Admin Login</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PLATFORM FEATURES -->
+<section class="features" id="features">
+    <h2>Comprehensive Agricultural Advisory Services</h2>
+
+    <div class="cards">
+        <div class="card">
+            <h3>🌾 Crop Recommendation</h3>
+            <p>Data-driven suggestions considering soil type, farming season (Kharif, Rabi, Summer), and water availability.</p>
+        </div>
+
+        <div class="card">
+            <h3>🌦 Localized Weather Advisory</h3>
+            <p>Real-time agrometeorological tracking with temperature, humidity, precipitation, and conditions from Open-Meteo.</p>
+        </div>
+
+        <div class="card">
+            <h3>🌱 Soil Nutrient Analysis</h3>
+            <p>Determine pH condition (Acidic, Neutral, Alkaline) and assess Nitrogen, Phosphorus, and Potassium balance.</p>
+        </div>
+
+        <div class="card">
+            <h3>💧 Smart Irrigation Guidance</h3>
+            <p>Precise watering advice based on crop water requirements, soil retention characteristics, and supply levels.</p>
+        </div>
+
+        <div class="card">
+            <h3>🌿 Plant Disease Detection</h3>
+            <p>Symptom-based preliminary health assessment for early diagnosis and timely crop protection advice.</p>
+        </div>
+
+        <div class="card">
+            <h3>💰 Market Price Discovery</h3>
+            <p>Compare mandi reference rates across districts and commodities to help farmers sell at fair market prices.</p>
+        </div>
+
+        <div class="card">
+            <h3>🌾 Direct Produce Marketplace</h3>
+            <p>Empowers farmers to list crops with expected pricing, quantities, and quality grades for direct buyer access.</p>
+        </div>
+
+        <div class="card">
+            <h3>📋 Demand & Supply Analytics</h3>
+            <p>Normalized unit calculations (in Quintals) to identify regional surplus and shortage trends for market balance.</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Smart Krishi Advisor | Intelligent Farming & Agriculture Technology Platform 🌱</p>
+    <p style="margin-top: 8px;">
+        <a th:href="@{/admin/login}">Administrator Sign In</a> |
+        <a th:href="@{/login}">Farmer Portal</a> |
+        <a th:href="@{/buyer/login}">Buyer Portal</a>
+    </p>
+</footer>
+
+</body>
+</html>

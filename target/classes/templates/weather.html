@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Updates - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef7ee;
+            padding: 30px;
+            color: #263b2a;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            text-align: center;
+            color: #176b35;
+            margin-top: 0;
+        }
+
+        .location-info {
+            background: #f8fbf8;
+            border: 1px solid #d4edda;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .weather-card {
+            background: #eaf6ea;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            border-top: 3px solid #176b35;
+        }
+
+        .weather-card h3 {
+            color: #176b35;
+            font-size: 15px;
+            margin: 0 0 8px;
+        }
+
+        .weather-card p {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0;
+            color: #263b2a;
+        }
+
+        .condition-banner {
+            background: #176b35;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .error {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 5px solid #ffeeba;
+            margin-bottom: 20px;
+        }
+
+        .back {
+            display: inline-block;
+            text-align: center;
+            margin-top: 20px;
+            background: #176b35;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            background: #125228;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🌤️ Agricultural Weather Advisory</h2>
+
+    <div class="location-info">
+        <div><strong>Farmer Farm Location:</strong> <span th:text="${farmerLocation}"></span></div>
+        <div><strong>Agro-Met Weather Station:</strong> <span th:text="${stationName}"></span></div>
+        <div><strong>Coordinates:</strong> <span th:text="${coordinates}"></span></div>
+    </div>
+
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+
+    <div th:if="${temperature != null}">
+
+        <div class="condition-banner" th:if="${weatherCondition != null}">
+            Current Condition: <span th:text="${weatherCondition}"></span>
+        </div>
+
+        <div class="grid">
+            <div class="weather-card">
+                <h3>🌡️ Temperature</h3>
+                <p><span th:text="${temperature}"></span> °C</p>
+            </div>
+
+            <div class="weather-card">
+                <h3>💧 Humidity</h3>
+                <p><span th:text="${humidity}"></span> %</p>
+            </div>
+
+            <div class="weather-card">
+                <h3>🌡️ Feels Like</h3>
+                <p><span th:text="${feelsLike}"></span> °C</p>
+            </div>
+
+            <div class="weather-card">
+                <h3>🌧️ Precipitation</h3>
+                <p><span th:text="${rain}"></span> mm</p>
+            </div>
+
+            <div class="weather-card">
+                <h3>💨 Wind Speed</h3>
+                <p><span th:text="${wind}"></span> km/h</p>
+            </div>
+
+            <div class="weather-card">
+                <h3>⏱️ Observation Time</h3>
+                <p style="font-size: 14px; font-weight: normal;" th:text="${weatherTime}"></p>
+            </div>
+        </div>
+
+        <p style="text-align:center; font-size:12px; color:#666;">
+            Data provided by Open-Meteo Weather API for regional agricultural planning.
+        </p>
+
+    </div>
+
+    <div style="text-align:center;">
+        <a class="back" th:href="@{/dashboard}">← Back to Farmer Dashboard</a>
+    </div>
+
+</div>
+
+</body>
+</html>

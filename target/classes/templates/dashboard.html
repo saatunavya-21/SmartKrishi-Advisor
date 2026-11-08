@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #eef7ee;
+            color: #263b2a;
+        }
+
+        header {
+            background: #176b35;
+            color: white;
+            padding: 20px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        header a.logout-btn {
+            color: white;
+            text-decoration: none;
+            background: #c0392b;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        header a.logout-btn:hover {
+            background: #a93226;
+        }
+
+        .welcome {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .welcome h2 {
+            color: #176b35;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #555;
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            padding: 20px 35px 50px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-top: 4px solid #176b35;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card h3 {
+            color: #176b35;
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .card a.btn {
+            background: #176b35;
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .card a.btn:hover {
+            background: #125228;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>🌱 Smart Krishi Advisor</h2>
+    <a class="logout-btn" th:href="@{/logout}">Logout</a>
+</header>
+
+<section class="welcome">
+    <h2>
+        Welcome, <span th:text="${farmerName}"></span>!
+    </h2>
+    <p>Your comprehensive smart farming, advisory, and market assistance dashboard</p>
+</section>
+
+<section class="features">
+
+    <div class="card">
+        <div>
+            <h3>🌾 Crop Recommendation</h3>
+            <p>Get tailored crop suggestions based on your soil type, season, and water availability.</p>
+        </div>
+        <div>
+            <a class="btn" th:href="@{/crop-recommendation}">Explore Recommendations</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h3>🌤️ Weather Updates</h3>
+            <p>Track localized agrometeorological forecasts, temperature, precipitation, and conditions.</p>
+        </div>
+        <div>
+            <a class="btn" th:href="@{/weather}">Check Weather Advisory</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h3>🌱 Soil Nutrient Analysis</h3>
+            <p>Analyze soil pH status, classify acidity/alkalinity, and evaluate N-P-K nutrient values.</p>
+        </div>
+        <div>
+            <a class="btn" th:href="@{/soil-analysis}">Analyze Soil Condition</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h3>💧 Smart Irrigation Advice</h3>
+            <p>Obtain watering strategies adapted to crop type, soil moisture retention, and water levels.</p>
+        </div>
+        <div>
+            <a class="btn" th:href="@{/irrigation}">Get Irrigation Advice</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h3>🌿 Plant Disease Detection</h3>
+            <p>Identify possible crop disorders and leaf symptoms for timely preventive treatment.</p>
+        </div>
+        <div>
+            <a class="btn" th:href="@{/disease-detection}">Check Symptoms</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h3>🌾 Sell Your Produce</h3>
+            <p>List your harvest with quantities, quality grades, and expected price to reach registered buyers.</p>
+        </div>
+        <div>
+            <a class="btn" th:href="@{/produce/add}">Manage & Add Produce</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h3>💰 Benchmark Market Prices</h3>
+            <p>View administrative reference prices and mandi rates to sell at fair market valuations.</p>
+        </div>
+        <div>
+            <a class="btn" th:href="@{/market-prices}">Compare Market Prices</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h3>📈 Price Summary Report</h3>
+            <p>Inspect minimum, maximum, and average price ranges across major commodities.</p>
+        </div>
+        <div>
+            <a class="btn" th:href="@{/market-price-report}">View Price Report</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h3>👨‍🌾 Farmer Profile</h3>
+            <p>View your registered farm location, acreage, soil classification, and contact details.</p>
+        </div>
+        <div>
+            <a class="btn" th:href="@{/profile}">View Farm Profile</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h3>📝 Feedback & Support</h3>
+            <p>Share your agricultural experience, rating, and suggestions to help us improve.</p>
+        </div>
+        <div>
+            <a class="btn" th:href="@{/feedback}">Submit Feedback</a>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>
