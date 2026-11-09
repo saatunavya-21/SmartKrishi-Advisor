@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Market Price Report</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f5f0;
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #176b35;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 25px;
+        }
+
+        th, td {
+            padding: 14px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #176b35;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>📊 Crop Market Price Report</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Crop and Unit</th>
+            <th>Lowest Price (₹)</th>
+            <th>Highest Price (₹)</th>
+            <th>Average Price (₹)</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr th:each="entry : ${report}">
+            <td th:text="${entry.key}"></td>
+
+            <td th:text="${entry.value[2]}"></td>
+
+            <td th:text="${entry.value[3]}"></td>
+
+            <td th:text="${#numbers.formatDecimal(entry.value[1] / entry.value[0], 1, 2)}"></td>
+        </tr>
+
+        <tr th:if="${#maps.isEmpty(report)}">
+            <td colspan="4">No market price records available.</td>
+        </tr>
+    </tbody>
+</table>
+
+<p style="text-align:center;">
+    <a th:href="@{/dashboard}">Back to Farmer Dashboard</a>
+</p>
+
+</body>
+</html>

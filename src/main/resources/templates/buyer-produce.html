@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Available Produce - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f5f0;
+            padding: 30px;
+        }
+
+        h2 {
+            color: #176b35;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        th, td {
+            padding: 14px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #176b35;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f7f2;
+        }
+
+        a {
+            color: #176b35;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>🌾 Available Agricultural Produce</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Crop</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Expected Price</th>
+                <th>Quality</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="produce : ${produceList}">
+                <td th:text="${produce.cropName}"></td>
+                <td th:text="${produce.quantity}"></td>
+                <td th:text="${produce.unit}"></td>
+                <td th:text="'₹' + ${produce.expectedPrice}"></td>
+                <td th:text="${produce.quality}"></td>
+                <td th:text="${produce.location}"></td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(produceList)}">
+                <td colspan="6">No produce listings available yet.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        <a th:href="@{/buyer/dashboard}">Back to Buyer Dashboard</a>
+    </p>
+
+</body>
+</html>

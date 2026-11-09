@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Krishi Advisor</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f8f1;
+            color: #263b2a;
+        }
+
+        header {
+            background: #176b36;
+            color: white;
+            padding: 22px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h2 {
+            font-size: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 22px;
+        }
+
+        .hero {
+            padding: 75px 8%;
+            background: linear-gradient(120deg, #e0f3df, #f5fae9);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            color: #176b36;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
+        .hero button {
+            background: #176b36;
+            color: white;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .features {
+            padding: 50px 8%;
+            text-align: center;
+        }
+
+        .features h2 {
+            margin-bottom: 30px;
+            color: #176b36;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #00000012;
+        }
+
+        .card h3 {
+            color: #176b36;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            line-height: 1.6;
+        }
+
+        footer {
+            background: #176b36;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 35px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>🌱 Smart Krishi Advisor</h2>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="#features">Features</a>
+        <a href="#about">About</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Welcome to Smart Krishi Advisor</h1>
+
+    <p>
+        Empowering Farmers with Smart Agriculture Technology.
+        <br>
+        Get crop recommendations, weather information
+        and intelligent farming guidance.
+    </p>
+
+    <button onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
+        Explore Features
+    </button>
+</section>
+
+<section class="features" id="features">
+
+    <h2>Our Smart Agriculture Services</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>🌾 Crop Recommendation</h3>
+            <p>Discover suitable crops based on soil and environmental conditions.</p>
+        </div>
+
+        <div class="card">
+            <h3>🌦 Weather Updates</h3>
+            <p>Access weather information to support farming decisions.</p>
+        </div>
+
+        <div class="card">
+            <h3>🌱 Soil Analysis</h3>
+            <p>Understand soil nutrients and get guidance for better crop planning.</p>
+        </div>
+
+        <div class="card">
+            <h3>💧 Irrigation Advice</h3>
+            <p>Get guidance for efficient water management.</p>
+        </div>
+
+        <div class="card">
+            <h3>🐛 Disease Detection</h3>
+            <p>Explore crop disease identification and management guidance.</p>
+        </div>
+
+        <div class="card">
+            <h3>💰 Market Prices</h3>
+            <p>View agricultural market price information.</p>
+        </div>
+
+    </div>
+
+</section>
+
+<footer id="about">
+    <p>© 2026 Smart Krishi Advisor | Smart Farming, Better Future 🌱</p>
+</footer>
+<div style="text-align:center; margin:30px;">
+    <a th:href="@{/admin/login}"
+       style="background:#176b35;
+              color:white;
+              padding:12px 25px;
+              text-decoration:none;
+              border-radius:8px;">
+        Admin Login
+    </a>
+</div>
+</body>
+</html>

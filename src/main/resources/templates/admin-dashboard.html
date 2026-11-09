@@ -1,0 +1,234 @@
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard - Smart Krishi Advisor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f5f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            background: #176b35;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            flex: 1;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #ccc;
+        }
+
+        h2 {
+            color: #176b35;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #176b35;
+            color: white;
+        }
+
+        .logout {
+            color: white;
+            background: #c0392b;
+            padding: 10px 18px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌱 Smart Krishi Advisor</h1>
+    <h2 style="color:white;">Administration Dashboard</h2>
+    <a class="logout" th:href="@{/admin/logout}">Logout</a>
+</header>
+
+<div class="stats">
+    <div class="card">
+        <h2>Total Farmers</h2>
+        <h1 th:text="${totalFarmers}">0</h1>
+    </div>
+
+	<div class="card">
+	    <h3>📊 Admin Reports & Analytics</h3>
+	    <p>View farmer, buyer, produce, demand and feedback statistics.</p>
+	    <a th:href="@{/admin/reports}">
+	        View Reports
+	    </a>
+	</div>
+
+	<div class="card">
+	    <h3>📥 Export Farmer Records</h3>
+	    <p>Download registered farmer details in CSV format.</p>
+
+	    <a th:href="@{/admin/export-farmers}"
+	       style="background:#176b35;
+	              color:white;
+	              padding:12px 20px;
+	              text-decoration:none;
+	              border-radius:6px;
+	              display:inline-block;">
+	        Download CSV
+	    </a>
+	</div>
+
+	<div class="card">
+	    <h3>📥 Export Farmer Records</h3>
+	    <p>Download registered farmer information.</p>
+	    <a th:href="@{/admin/export-farmers}">
+	        Download Farmers CSV
+	    </a>
+	</div>
+
+	<div class="card">
+	    <h3>📥 Export Buyer Demands</h3>
+	    <p>Download crop requirements submitted by buyers.</p>
+	    <a th:href="@{/admin/export-demands}">
+	        Download Demands CSV
+	    </a>
+	</div>
+
+	<div class="card">
+	    <h3>📊 Admin Activity Report</h3>
+	    <p>Monitor farmer registrations, produce listings and buyer demands.</p>
+	    <a th:href="@{/admin/activity}">
+	        View Activity Report
+	    </a>
+	</div>
+
+	<div class="card">
+	    <h3>🌾 Export Produce Listings</h3>
+	    <p>Download all farmer crop listings.</p>
+	    <a th:href="@{/admin/export-produce}">
+	        Download Produce CSV
+	    </a>
+	</div>
+
+	<div class="card">
+	    <h3>📊 Market Price Management</h3>
+	    <p>Add and manage crop prices from different markets.</p>
+	    <a th:href="@{/admin/market-prices}">
+	        Manage Market Prices
+	    </a>
+	</div>
+
+    <div class="card">
+        <h2>Total Feedback</h2>
+        <h1 th:text="${totalFeedback}">0</h1>
+    </div>
+</div>
+<div class="card">
+    <h3>📊 Demand & Supply Analysis</h3>
+    <p>View total available crop quantities from farmer listings.</p>
+    <a th:href="@{/demand-supply}">View Analysis</a>
+</div>
+
+<h2>👨‍🌾 Registered Farmers</h2>
+
+<input type="text"
+       id="farmerSearch"
+       placeholder="Search by name, email, village or district..."
+       onkeyup="searchFarmers()"
+       style="width:100%;
+              padding:12px;
+              margin-bottom:15px;
+              border:1px solid #ccc;
+              border-radius:6px;">
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Village</th>
+        <th>District</th>
+        <th>State</th>
+		<th>Action</th>
+    </tr>
+
+    <tr th:each="farmer : ${farmers}">
+        <td th:text="${farmer.id}"></td>
+        <td th:text="${farmer.name}"></td>
+        <td th:text="${farmer.email}"></td>
+        <td th:text="${farmer.phone}"></td>
+        <td th:text="${farmer.village}"></td>
+        <td th:text="${farmer.district}"></td>
+        <td th:text="${farmer.state}"></td>
+		<td>
+		    <a th:href="@{/admin/farmer/{id}(id=${farmer.id})}">
+		        View Details
+		    </a>
+		</td>
+		 </tr>
+</table>
+
+<h2>⭐ Farmer Feedback</h2>
+
+<table>
+    <tr>
+        <th>Farmer ID</th>
+        <th>Category</th>
+        <th>Rating</th>
+        <th>Comments</th>
+        <th>Submitted At</th>
+    </tr>
+
+    <tr th:each="feedback : ${feedbackList}">
+        <td th:text="${feedback.farmerId}"></td>
+        <td th:text="${feedback.category}"></td>
+        <td th:text="${feedback.rating}"></td>
+        <td th:text="${feedback.comments}"></td>
+        <td th:text="${feedback.submittedAt}"></td>
+    </tr>
+</table>
+<script>
+function searchFarmers() {
+    let input = document.getElementById("farmerSearch")
+        .value.toLowerCase();
+
+    let rows = document.querySelectorAll(
+        "table:first-of-type tr"
+    );
+
+    for (let i = 1; i < rows.length; i++) {
+        let rowText = rows[i].innerText.toLowerCase();
+
+        rows[i].style.display =
+            rowText.includes(input) ? "" : "none";
+    }
+}
+</script>
+</body>
+</html>

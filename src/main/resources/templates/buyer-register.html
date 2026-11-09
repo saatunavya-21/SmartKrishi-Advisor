@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Buyer Registration - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f5f0;
+            padding: 30px;
+        }
+
+        .container {
+            background: white;
+            max-width: 500px;
+            margin: auto;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #176b35;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px;
+            margin: 8px 0 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #176b35;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .message {
+            color: green;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Buyer Registration</h2>
+
+    <p class="message" th:text="${message}"></p>
+
+    <form th:action="@{/buyer/register}"
+          th:object="${buyer}"
+          method="post">
+
+        <label>Buyer Name</label>
+        <input type="text" name="name" required>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>Password</label>
+        <input type="password" name="password"
+               minlength="8" required>
+
+        <label>Phone</label>
+        <input type="tel" name="phone" required>
+
+        <label>Village</label>
+        <input type="text" name="village" required>
+
+        <label>District</label>
+        <input type="text" name="district" required>
+
+        <label>State</label>
+        <input type="text" name="state" required>
+
+        <button type="submit">Register as Buyer</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

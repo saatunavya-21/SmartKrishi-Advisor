@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Soil Analysis - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef7ee;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: green;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 22px;
+            background: #198754;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .result {
+            background: #e5f5e5;
+            padding: 18px;
+            margin-top: 22px;
+            border-radius: 8px;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🌱 Soil Analysis</h2>
+
+    <p>Enter your soil test values below.</p>
+
+    <form th:action="@{/soil-analysis}" method="post">
+
+        <label>Soil Type</label>
+        <select name="soilType" required>
+            <option value="">Select Soil Type</option>
+            <option value="Red Soil">Red Soil</option>
+            <option value="Black Soil">Black Soil</option>
+            <option value="Alluvial Soil">Alluvial Soil</option>
+            <option value="Sandy Soil">Sandy Soil</option>
+            <option value="Clay Soil">Clay Soil</option>
+        </select>
+
+        <label>Soil pH</label>
+        <input type="number" name="ph"
+               min="0" max="14" step="0.1"
+               placeholder="Example: 6.5" required>
+
+        <label>Nitrogen (N)</label>
+        <input type="number" name="nitrogen"
+               min="0" step="0.1"
+               placeholder="Enter lab test value" required>
+
+        <label>Phosphorus (P)</label>
+        <input type="number" name="phosphorus"
+               min="0" step="0.1"
+               placeholder="Enter lab test value" required>
+
+        <label>Potassium (K)</label>
+        <input type="number" name="potassium"
+               min="0" step="0.1"
+               placeholder="Enter lab test value" required>
+
+        <button type="submit">Analyze Soil</button>
+
+    </form>
+
+    <div class="result" th:if="${condition != null}">
+
+        <h3>Soil Analysis Result</h3>
+
+        <p>Soil Type:
+            <strong th:text="${soilType}"></strong>
+        </p>
+
+        <p>pH Value:
+            <strong th:text="${ph}"></strong>
+        </p>
+
+        <p>Nitrogen:
+            <strong th:text="${nitrogen}"></strong>
+        </p>
+
+        <p>Phosphorus:
+            <strong th:text="${phosphorus}"></strong>
+        </p>
+
+        <p>Potassium:
+            <strong th:text="${potassium}"></strong>
+        </p>
+
+        <h3>Soil Condition</h3>
+
+        <p th:text="${condition}"></p>
+
+        <small>
+            This is a basic pH-based classification.
+            For accurate nutrient interpretation, use
+            laboratory reference values and local
+            agricultural recommendations.
+        </small>
+
+    </div>
+
+    <a class="back" th:href="@{/dashboard}">
+        Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

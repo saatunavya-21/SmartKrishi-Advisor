@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Irrigation Advice - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef7ee;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: green;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 22px;
+            background: #198754;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .result {
+            background: #e5f5e5;
+            padding: 18px;
+            margin-top: 22px;
+            border-radius: 8px;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>💧 Irrigation Advice</h2>
+
+    <p>Enter your farming details to receive basic irrigation advice.</p>
+
+    <form th:action="@{/irrigation}" method="post">
+
+        <label>Crop Type</label>
+        <select name="crop" required>
+            <option value="">Select Crop</option>
+            <option value="Rice">Rice</option>
+            <option value="Cotton">Cotton</option>
+            <option value="Maize">Maize</option>
+            <option value="Groundnut">Groundnut</option>
+            <option value="Millets">Millets</option>
+        </select>
+
+        <label>Soil Type</label>
+        <select name="soilType" required>
+            <option value="">Select Soil Type</option>
+            <option value="Red Soil">Red Soil</option>
+            <option value="Black Soil">Black Soil</option>
+            <option value="Sandy Soil">Sandy Soil</option>
+            <option value="Clay Soil">Clay Soil</option>
+            <option value="Alluvial Soil">Alluvial Soil</option>
+        </select>
+
+        <label>Water Availability</label>
+        <select name="waterAvailability" required>
+            <option value="">Select Water Availability</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+
+        <button type="submit">Get Irrigation Advice</button>
+
+    </form>
+
+    <div class="result" th:if="${advice != null}">
+
+        <h3>🌱 Irrigation Result</h3>
+
+        <p>Crop:
+            <strong th:text="${crop}"></strong>
+        </p>
+
+        <p>Soil Type:
+            <strong th:text="${soilType}"></strong>
+        </p>
+
+        <p>Water Availability:
+            <strong th:text="${waterAvailability}"></strong>
+        </p>
+
+        <h3>Recommended Advice</h3>
+
+        <p th:text="${advice}"></p>
+
+        <small>
+            This is general educational advice.
+            Actual irrigation needs depend on crop stage,
+            soil moisture, rainfall and local conditions.
+        </small>
+
+    </div>
+
+    <a class="back" th:href="@{/dashboard}">
+        Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

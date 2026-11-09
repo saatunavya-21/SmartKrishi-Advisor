@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Farmer Registration - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef7ee;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            background: white;
+            max-width: 500px;
+            margin: auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ccc;
+        }
+
+        h2 {
+            color: green;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .success {
+            color: green;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h2>Farmer Registration</h2>
+
+    <p class="success" th:text="${message}"></p>
+
+    <form th:action="@{/register}" method="post">
+
+        <label>Farmer Name</label>
+        <input type="text" name="name" required>
+
+        <label>Password</label>
+        <input type="password" name="password"
+               minlength="8" required>
+
+        <label>Mobile Number</label>
+        <input type="tel" name="phone" required>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>Village</label>
+        <input type="text" name="village" required>
+
+        <label>District</label>
+        <input type="text" name="district" required>
+
+        <label>State</label>
+        <input type="text" name="state" required>
+
+        <label>Land Area (acres)</label>
+        <input type="number" name="landArea"
+               step="0.01" min="0" required>
+
+        <label>Soil Type</label>
+        <select name="soilType" required>
+            <option value="">Select Soil Type</option>
+            <option value="Red Soil">Red Soil</option>
+            <option value="Black Soil">Black Soil</option>
+            <option value="Alluvial Soil">Alluvial Soil</option>
+            <option value="Sandy Soil">Sandy Soil</option>
+        </select>
+
+        <button type="submit">Register Farmer</button>
+
+    </form>
+</div>
+</body>
+</html>

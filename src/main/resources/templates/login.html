@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Farmer Login - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef7ee;
+            padding: 40px;
+        }
+
+        .container {
+            background: white;
+            max-width: 400px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: green;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 18px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .message {
+            text-align: center;
+            color: red;
+        }
+
+        a {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h2>Farmer Login</h2>
+
+    <p class="message" th:text="${message}"></p>
+
+    <form th:action="@{/login}" method="post">
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <button type="submit">Login</button>
+
+    </form>
+
+    <p style="text-align:center;">
+        New farmer?
+        <a th:href="@{/register}">Register here</a>
+    </p>
+
+</div>
+</body>
+</html>

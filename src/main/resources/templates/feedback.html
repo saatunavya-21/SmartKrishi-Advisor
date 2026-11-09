@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Farmer Feedback - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef7ee;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: green;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        textarea {
+            height: 110px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 22px;
+            background: #198754;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .result {
+            background: #e5f5e5;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            color: green;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>📝 Farmer Feedback</h2>
+
+    <p>Share your experience with Smart Krishi Advisor.</p>
+
+    <form th:action="@{/feedback}" method="post">
+
+        <label>Feedback Category</label>
+
+        <select name="category" required>
+            <option value="">Select Category</option>
+            <option value="Crop Recommendation">Crop Recommendation</option>
+            <option value="Weather Updates">Weather Updates</option>
+            <option value="Soil Analysis">Soil Analysis</option>
+            <option value="Irrigation Advice">Irrigation Advice</option>
+            <option value="Disease Detection">Disease Detection</option>
+            <option value="Market Prices">Market Prices</option>
+            <option value="Overall Experience">Overall Experience</option>
+        </select>
+
+        <label>Rating</label>
+
+        <select name="rating" required>
+            <option value="">Select Rating</option>
+            <option value="1">1 - Poor</option>
+            <option value="2">2 - Fair</option>
+            <option value="3">3 - Good</option>
+            <option value="4">4 - Very Good</option>
+            <option value="5">5 - Excellent</option>
+        </select>
+
+        <label>Comments</label>
+
+        <textarea name="comments"
+                  placeholder="Enter your feedback..."
+                  maxlength="1000"
+                  required></textarea>
+
+        <button type="submit">Submit Feedback</button>
+
+    </form>
+
+    <div class="result" th:if="${message != null}">
+        <p th:text="${message}"></p>
+    </div>
+
+    <a class="back" th:href="@{/dashboard}">
+        Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

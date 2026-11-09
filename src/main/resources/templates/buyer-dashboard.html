@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Buyer Dashboard</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f0f5f0;
+            padding: 30px;
+        }
+        header {
+            background: #176b35;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+        }
+        .card {
+            background: white;
+            padding: 25px;
+            margin-top: 25px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🌱 Smart Krishi Advisor</h1>
+    <h2>Buyer Dashboard</h2>
+</header>
+
+<div class="card">
+    <h2>
+        Welcome, <span th:text="${buyerName}"></span>!
+    </h2>
+
+    <h3>Buyer Services</h3>
+
+    <p>View available agricultural products.</p>
+    <p>Explore farmer produce listings.</p>
+    <p>Compare market prices.</p>
+
+    <a th:href="@{/buyer/logout}">Logout</a>
+</div>
+
+<div class="card">
+    <h3>🌾 Browse Agricultural Produce</h3>
+    <p>View crops listed by registered farmers.</p>
+    <a th:href="@{/buyer/produce}">View Available Produce</a>
+</div>
+
+<div class="card">
+    <h3>📊 Market Price Comparison</h3>
+    <p>Compare crop prices across different markets.</p>
+    <a th:href="@{/buyer/market-prices}">
+        View Market Prices
+    </a>
+</div>
+
+<div class="card">
+    <h3>📋 Submit Crop Demand</h3>
+    <p>Tell farmers which crops and quantities you need.</p>
+    <a th:href="@{/buyer/crop-demand}">
+        Submit Your Requirement
+    </a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Admin Login - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef7ee;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 70px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: green;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 22px;
+            background: #198754;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🔐 Admin Login</h2>
+
+    <p style="text-align:center;">
+        Smart Krishi Advisor Administration
+    </p>
+
+    <form th:action="@{/admin/login}" method="post">
+
+        <label>Admin Email</label>
+
+        <input type="email"
+               name="email"
+               placeholder="Enter admin email"
+               required>
+
+        <label>Admin Password</label>
+
+        <input type="password"
+               name="password"
+               placeholder="Enter admin password"
+               required>
+
+        <button type="submit">Login</button>
+
+    </form>
+
+    <p class="error"
+       th:if="${message != null}"
+       th:text="${message}">
+    </p>
+
+</div>
+
+</body>
+</html>

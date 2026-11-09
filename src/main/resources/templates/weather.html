@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Weather Updates - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef7ee;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: green;
+        }
+
+        .weather-card {
+            background: #e5f5e5;
+            padding: 18px;
+            margin: 12px 0;
+            border-radius: 8px;
+        }
+
+        .weather-card h3 {
+            color: #176b35;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🌤️ Weather Updates</h2>
+
+    <p th:if="${location != null}">
+        Location: <strong th:text="${location}"></strong>
+    </p>
+
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+
+    <div th:if="${temperature != null}">
+
+        <div class="weather-card">
+            <h3>🌡️ Temperature</h3>
+            <p><span th:text="${temperature}"></span> °C</p>
+        </div>
+
+        <div class="weather-card">
+            <h3>💧 Humidity</h3>
+            <p><span th:text="${humidity}"></span> %</p>
+        </div>
+
+        <div class="weather-card">
+            <h3>🌡️ Feels Like</h3>
+            <p><span th:text="${feelsLike}"></span> °C</p>
+        </div>
+
+        <div class="weather-card">
+            <h3>🌧️ Precipitation</h3>
+            <p><span th:text="${rain}"></span> mm</p>
+        </div>
+
+        <div class="weather-card">
+            <h3>💨 Wind Speed</h3>
+            <p><span th:text="${wind}"></span> km/h</p>
+        </div>
+
+        <div class="weather-card">
+            <h3>Weather Code</h3>
+            <p><span th:text="${weatherCode}"></span></p>
+        </div>
+
+        <p>
+            Updated time:
+            <span th:text="${weatherTime}"></span>
+        </p>
+
+        <p>
+            <small>Weather information provided by Open-Meteo.</small>
+        </p>
+
+    </div>
+
+    <a class="back" th:href="@{/dashboard}">
+        Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

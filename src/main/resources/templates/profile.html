@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Farmer Profile - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef7ee;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: green;
+        }
+
+        .detail {
+            padding: 12px;
+            margin-top: 10px;
+            background: #e5f5e5;
+            border-radius: 6px;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>👨‍🌾 Farmer Profile</h2>
+
+    <div class="detail">
+        <strong>Farmer Name:</strong>
+        <span th:text="${farmer.name}"></span>
+    </div>
+
+    <div class="detail">
+        <strong>Email:</strong>
+        <span th:text="${farmer.email}"></span>
+    </div>
+
+    <div class="detail">
+        <strong>Phone:</strong>
+        <span th:text="${farmer.phone}"></span>
+    </div>
+
+    <div class="detail">
+        <strong>Village:</strong>
+        <span th:text="${farmer.village}"></span>
+    </div>
+
+    <div class="detail">
+        <strong>District:</strong>
+        <span th:text="${farmer.district}"></span>
+    </div>
+
+    <div class="detail">
+        <strong>State:</strong>
+        <span th:text="${farmer.state}"></span>
+    </div>
+
+    <div class="detail">
+        <strong>Land Area:</strong>
+        <span th:text="${farmer.landArea}"></span>
+    </div>
+
+    <div class="detail">
+        <strong>Soil Type:</strong>
+        <span th:text="${farmer.soilType}"></span>
+    </div>
+
+    <a class="back" th:href="@{/dashboard}">
+        Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

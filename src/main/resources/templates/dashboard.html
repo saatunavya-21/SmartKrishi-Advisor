@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Smart Krishi Advisor Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #eef7ee;
+        }
+
+        header {
+            background: #176b35;
+            color: white;
+            padding: 20px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            background: #e74c3c;
+            padding: 10px 18px;
+            border-radius: 6px;
+        }
+
+        .welcome {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .welcome h2 {
+            color: #176b35;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 20px 35px 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 10px #ccc;
+        }
+
+        .card h3 {
+            color: #176b35;
+        }
+
+        .status {
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>🌱 Smart Krishi Advisor</h2>
+    <a th:href="@{/logout}">Logout</a>
+</header>
+
+<section class="welcome">
+    <h2>
+        Welcome, <span th:text="${farmerName}"></span>!
+    </h2>
+    <p>Your smart farming assistance dashboard</p>
+</section>
+
+<section class="features">
+	<div class="card">
+	    <h3>🌾 Crop Recommendation</h3>
+	    <p>Get crop suggestions based on soil and farming conditions.</p>
+	    <a th:href="@{/crop-recommendation}">Explore Now</a>
+	</div>
+	<div class="card">
+	    <h3>🌤️ Weather Updates</h3>
+	    <p>Check current weather for your farming location.</p>
+	    <a th:href="@{/weather}">Check Weather</a>
+	</div>
+   
+	<div class="card">
+
+	    <h3>🌱 Soil Analysis</h3>
+
+	    <p>Understand soil properties and nutrient requirements.</p>
+
+	    <a th:href="@{/soil-analysis}">Explore Now</a>
+
+	</div>
+   
+	<div class="card">
+
+	    <h3>💧 Irrigation Advice</h3>
+
+	    <p>Get basic watering suggestions based on crop and soil conditions.</p>
+
+	    <a th:href="@{/irrigation}">Explore Now</a>
+
+	</div>
+
+	<div class="card">
+
+	    <h3>🌿 Disease Detection</h3>
+
+	    <p>Check possible plant health problems based on observed symptoms.</p>
+
+	    <a th:href="@{/disease-detection}">Explore Now</a>
+
+	</div>
+	<div class="card">
+
+	    <h3>🌾 Market Prices</h3>
+
+	    <p>View crop market price examples.</p>
+
+	    <a th:href="@{/market-prices}">Explore Now</a>
+
+	</div>
+	<div class="card">
+
+	    <h3>👨‍🌾 Farmer Profile</h3>
+
+	    <p>View your registered farmer details.</p>
+
+	    <a th:href="@{/profile}">View Profile</a>
+
+	</div>
+	<div class="card">
+
+	    <h3>📝 Farmer Feedback</h3>
+
+	    <p>Share your experience and suggestions.</p>
+
+	    <a th:href="@{/feedback}">Give Feedback</a>
+
+	</div>
+
+	<div class="card">
+	    <h3>📈 Market Price Report</h3>
+	    <p>View the lowest, highest and average crop prices.</p>
+	    <a th:href="@{/market-price-report}">
+	        View Price Report
+	    </a>
+	</div>
+
+	<div class="card">
+	    <h3>🌾 Sell Your Produce</h3>
+	    <p>List your crops, available quantity and expected selling price.</p>
+	    <a th:href="@{/produce/add}">Add Produce</a>
+	</div>
+
+</section>
+
+</body>
+</html>

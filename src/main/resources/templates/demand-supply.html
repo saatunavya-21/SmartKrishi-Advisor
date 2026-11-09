@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Demand and Supply Analysis</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f5f0;
+            padding: 30px;
+        }
+
+        h2 {
+            color: #176b35;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 14px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #176b35;
+            color: white;
+        }
+
+        .surplus {
+            color: green;
+            font-weight: bold;
+        }
+
+        .shortage {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>📊 Demand and Supply Analysis</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Crop</th>
+            <th>Farmer Supply</th>
+            <th>Buyer Demand</th>
+            <th>Difference</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr th:each="entry : ${allCrops}">
+
+            <td th:text="${entry.key}"></td>
+
+            <td th:text="${supply.getOrDefault(entry.key, 0.0)}"></td>
+
+            <td th:text="${demand.getOrDefault(entry.key, 0.0)}"></td>
+
+            <td th:text="${supply.getOrDefault(entry.key, 0.0) - demand.getOrDefault(entry.key, 0.0)}"></td>
+
+            <td th:with="
+                difference=${supply.getOrDefault(entry.key, 0.0) - demand.getOrDefault(entry.key, 0.0)}">
+
+                <span th:if="${difference > 0}"
+                      class="surplus">Surplus</span>
+
+                <span th:if="${difference < 0}"
+                      class="shortage">Shortage</span>
+
+                <span th:if="${difference == 0}">
+                    Balanced
+                </span>
+
+            </td>
+
+        </tr>
+
+        <tr th:if="${#maps.isEmpty(allCrops)}">
+            <td colspan="5">No demand or supply records available.</td>
+        </tr>
+
+    </tbody>
+</table>
+
+<p style="text-align:center;">
+    <a th:href="@{/admin/dashboard}">Back to Admin Dashboard</a>
+</p>
+
+</body>
+</html>

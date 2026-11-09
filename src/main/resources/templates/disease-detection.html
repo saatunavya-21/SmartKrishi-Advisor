@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Disease Detection - Smart Krishi Advisor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef7ee;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: green;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 22px;
+            background: #198754;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .result {
+            background: #e5f5e5;
+            padding: 18px;
+            margin-top: 22px;
+            border-radius: 8px;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>🌿 Plant Disease Information</h2>
+
+    <p>Select your crop and the symptom you observe.</p>
+
+    <form th:action="@{/disease-detection}" method="post">
+
+        <label>Crop Type</label>
+        <select name="crop" required>
+            <option value="">Select Crop</option>
+            <option value="Rice">Rice</option>
+            <option value="Cotton">Cotton</option>
+            <option value="Maize">Maize</option>
+            <option value="Groundnut">Groundnut</option>
+            <option value="Tomato">Tomato</option>
+        </select>
+
+        <label>Plant Symptoms</label>
+        <select name="symptoms" required>
+            <option value="">Select Symptoms</option>
+            <option value="Yellow Leaves">Yellow Leaves</option>
+            <option value="Brown Spots">Brown Spots</option>
+            <option value="Wilting">Wilting</option>
+            <option value="White Powder">White Powder</option>
+        </select>
+
+        <button type="submit">Check Symptoms</button>
+
+    </form>
+
+    <div class="result" th:if="${result != null}">
+
+        <h3>🌱 Plant Health Information</h3>
+
+        <p>Crop:
+            <strong th:text="${crop}"></strong>
+        </p>
+
+        <p>Selected Symptom:
+            <strong th:text="${symptoms}"></strong>
+        </p>
+
+        <h3>Possible Explanation</h3>
+
+        <p th:text="${result}"></p>
+
+        <small>
+            This is not a confirmed diagnosis.
+            Consult a local agricultural officer
+            before choosing any treatment.
+        </small>
+
+    </div>
+
+    <a class="back" th:href="@{/dashboard}">
+        Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>
