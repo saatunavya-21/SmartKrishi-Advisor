@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Information & Cultivation Guide - Smart Krishi Market Advisor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f3f8f1; color: #263b2a; }
+        header { background: #176b35; color: white; padding: 18px 8%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        header h2 { font-size: 24px; display: flex; align-items: center; gap: 8px; }
+        nav { display: flex; gap: 15px; align-items: center; }
+        nav a { color: white; text-decoration: none; font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 4px; transition: background 0.2s; }
+        nav a:hover { background: rgba(255,255,255,0.15); }
+        .hero-banner { background: linear-gradient(120deg, #176b35, #2e7d32); color: white; padding: 45px 8%; text-align: center; }
+        .hero-banner h1 { font-size: 32px; margin-bottom: 8px; }
+        .hero-banner p { font-size: 16px; opacity: 0.95; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .filter-bar { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 30px; display: flex; gap: 15px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+        .filter-form { display: flex; gap: 12px; flex-wrap: wrap; width: 100%; }
+        .filter-form input, .filter-form select { padding: 10px 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        .filter-form input { flex-grow: 1; min-width: 200px; }
+        .filter-form button { background: #176b35; color: white; border: none; padding: 10px 22px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        .filter-form button:hover { background: #125228; }
+        .crop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; }
+        .crop-card { background: white; border-radius: 12px; border: 1px solid #dcebde; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        .crop-card-header { background: #e8f5e9; padding: 16px 20px; border-bottom: 2px solid #c8e6c9; display: flex; justify-content: space-between; align-items: center; }
+        .crop-card-header h3 { color: #176b35; font-size: 20px; }
+        .badge { background: #176b35; color: white; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .crop-card-body { padding: 20px; flex-grow: 1; }
+        .crop-desc { font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 16px; }
+        .crop-detail-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed #eee; font-size: 13.5px; }
+        .crop-detail-row strong { color: #2e7d32; }
+        .crop-detail-row span { color: #333; text-align: right; max-width: 60%; }
+        .empty-state { text-align: center; padding: 50px 20px; background: white; border-radius: 12px; color: #666; }
+        footer { background: #1b3d22; color: #c8e6c9; text-align: center; padding: 25px 8%; font-size: 14px; margin-top: 50px; }
+        footer a { color: #81c784; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>🌱 Smart Krishi Market Advisor</h2>
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/about}">About Us</a>
+        <a th:href="@{/crops}">Crop Info</a>
+        <a th:href="@{/crop-recommendation}">Recommendation</a>
+        <a th:href="@{/market-prices}">Market Prices</a>
+        <a th:href="@{/price-prediction}">Price Prediction</a>
+        <a th:href="@{/weather}">Weather</a>
+        <a th:href="@{/schemes}">Schemes</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/login}" style="background:white; color:#176b35; font-weight:bold;">Farmer Login</a>
+    </nav>
+</header>
+
+<div class="hero-banner">
+    <h1>🌾 Crop Information & Scientific Cultivation Guide</h1>
+    <p>Comprehensive agronomic reference on soil suitability, climatic requirements, water levels, and harvesting stages.</p>
+</div>
+
+<div class="container">
+
+    <div class="filter-bar">
+        <form class="filter-form" th:action="@{/crops}" method="get">
+            <input type="text" name="search" th:value="${searchQuery}" placeholder="Search by crop name, soil type, or season...">
+            <select name="category">
+                <option value="All" th:selected="${selectedCategory == 'All'}">All Categories</option>
+                <option value="Cereals" th:selected="${selectedCategory == 'Cereals'}">Cereals</option>
+                <option value="Pulses" th:selected="${selectedCategory == 'Pulses'}">Pulses</option>
+                <option value="Oilseeds" th:selected="${selectedCategory == 'Oilseeds'}">Oilseeds</option>
+                <option value="Cash Crops" th:selected="${selectedCategory == 'Cash Crops'}">Cash Crops</option>
+                <option value="Vegetables" th:selected="${selectedCategory == 'Vegetables'}">Vegetables</option>
+            </select>
+            <button type="submit">Filter Crops</button>
+            <a th:href="@{/crops}" style="padding:10px 16px; color:#666; text-decoration:none; display:flex; align-items:center; font-size:14px;">Reset</a>
+        </form>
+    </div>
+
+    <div th:if="${#lists.isEmpty(crops)}" class="empty-state">
+        <h3>No crops found matching your search.</h3>
+        <p>Try searching for Rice, Wheat, Cotton, or clear filters.</p>
+    </div>
+
+    <div class="crop-grid" th:unless="${#lists.isEmpty(crops)}">
+        <div class="crop-card" th:each="c : ${crops}">
+            <div class="crop-card-header">
+                <h3 th:text="${c.name}"></h3>
+                <span class="badge" th:text="${c.category}"></span>
+            </div>
+            <div class="crop-card-body">
+                <p class="crop-desc" th:text="${c.description}"></p>
+                <div class="crop-detail-row">
+                    <strong>Suitable Soil</strong>
+                    <span th:text="${c.soilType}"></span>
+                </div>
+                <div class="crop-detail-row">
+                    <strong>Ideal Climate</strong>
+                    <span th:text="${c.climate}"></span>
+                </div>
+                <div class="crop-detail-row">
+                    <strong>Growing Season</strong>
+                    <span th:text="${c.season}"></span>
+                </div>
+                <div class="crop-detail-row">
+                    <strong>Water Requirement</strong>
+                    <span th:text="${c.waterRequirement}"></span>
+                </div>
+                <div class="crop-detail-row">
+                    <strong>Crop Duration</strong>
+                    <span th:text="${c.duration}"></span>
+                </div>
+                <div class="crop-detail-row" style="border-bottom:none; margin-top:8px;">
+                    <strong>Harvesting Indicator</strong>
+                    <span th:text="${c.harvesting}" style="font-size:12.5px; color:#555;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 Smart Krishi Market Advisor | Intelligent Farming & Agriculture Technology Platform 🌱</p>
+    <p style="margin-top: 8px;">
+        <a th:href="@{/}">Home</a> |
+        <a th:href="@{/about}">About Us</a> |
+        <a th:href="@{/crops}">Crop Info</a> |
+        <a th:href="@{/crop-recommendation}">Crop Recommendation</a> |
+        <a th:href="@{/market-prices}">Market Prices</a>
+    </p>
+</footer>
+
+</body>
+</html>
+

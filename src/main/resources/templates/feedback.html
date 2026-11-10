@@ -1,8 +1,9 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmer Feedback - Smart Krishi Advisor</title>
 
     <style>
@@ -10,35 +11,46 @@
             font-family: Arial, sans-serif;
             background: #eef7ee;
             padding: 30px;
+            color: #263b2a;
         }
 
         .container {
             max-width: 650px;
             margin: auto;
             background: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 3px 12px #ccc;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
         }
 
         h2 {
             text-align: center;
-            color: green;
+            color: #176b35;
+            margin-top: 0;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
             margin-top: 15px;
             font-weight: bold;
+            font-size: 14px;
         }
 
         select, textarea {
             width: 100%;
             padding: 10px;
-            margin-top: 7px;
+            margin-top: 6px;
             box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 6px;
+            font-size: 14px;
         }
 
         textarea {
@@ -50,25 +62,42 @@
             width: 100%;
             padding: 12px;
             margin-top: 22px;
-            background: #198754;
+            background: #176b35;
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #125228;
         }
 
         .result {
-            background: #e5f5e5;
+            background: #d4edda;
+            color: #155724;
             padding: 15px;
             margin-top: 20px;
             border-radius: 8px;
-            color: green;
+            font-weight: bold;
+            text-align: center;
         }
 
         .back {
-            display: block;
-            text-align: center;
+            display: inline-block;
             margin-top: 20px;
+            background: #176b35;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            background: #125228;
         }
     </style>
 </head>
@@ -77,54 +106,51 @@
 
 <div class="container">
 
-    <h2>📝 Farmer Feedback</h2>
+    <h2>📝 Farmer Feedback & Suggestions</h2>
+    <p class="subtitle">Share your platform experience and help us enhance agricultural services</p>
 
-    <p>Share your experience with Smart Krishi Advisor.</p>
+    <div class="result" th:if="${message != null}">
+        <p style="margin:0;" th:text="${message}"></p>
+    </div>
 
     <form th:action="@{/feedback}" method="post">
 
         <label>Feedback Category</label>
-
         <select name="category" required>
             <option value="">Select Category</option>
-            <option value="Crop Recommendation">Crop Recommendation</option>
-            <option value="Weather Updates">Weather Updates</option>
-            <option value="Soil Analysis">Soil Analysis</option>
+            <option value="Crop Recommendation">Crop Recommendation Engine</option>
+            <option value="Weather Updates">Weather Updates & Advisory</option>
+            <option value="Soil Analysis">Soil Nutrient Analysis</option>
             <option value="Irrigation Advice">Irrigation Advice</option>
-            <option value="Disease Detection">Disease Detection</option>
-            <option value="Market Prices">Market Prices</option>
-            <option value="Overall Experience">Overall Experience</option>
+            <option value="Disease Detection">Disease Symptom Checker</option>
+            <option value="Market Prices">Market Benchmark Prices</option>
+            <option value="Produce Marketplace">Produce Marketplace Selling</option>
+            <option value="Overall Experience">Overall Platform Experience</option>
         </select>
 
-        <label>Rating</label>
-
+        <label>Rating (1 - Poor, 5 - Excellent)</label>
         <select name="rating" required>
             <option value="">Select Rating</option>
-            <option value="1">1 - Poor</option>
-            <option value="2">2 - Fair</option>
-            <option value="3">3 - Good</option>
-            <option value="4">4 - Very Good</option>
-            <option value="5">5 - Excellent</option>
+            <option value="5">⭐⭐⭐⭐⭐ 5 - Excellent</option>
+            <option value="4">⭐⭐⭐⭐ 4 - Very Good</option>
+            <option value="3">⭐⭐⭐ 3 - Good / Satisfactory</option>
+            <option value="2">⭐⭐ 2 - Fair / Needs Improvement</option>
+            <option value="1">⭐ 1 - Poor</option>
         </select>
 
-        <label>Comments</label>
-
+        <label>Detailed Comments & Observations</label>
         <textarea name="comments"
-                  placeholder="Enter your feedback..."
+                  placeholder="Share details of your experience, usability, or features you would like to see..."
                   maxlength="1000"
                   required></textarea>
 
-        <button type="submit">Submit Feedback</button>
+        <button type="submit">Submit Agricultural Feedback</button>
 
     </form>
 
-    <div class="result" th:if="${message != null}">
-        <p th:text="${message}"></p>
+    <div style="text-align:center;">
+        <a class="back" th:href="@{/dashboard}">← Back to Farmer Dashboard</a>
     </div>
-
-    <a class="back" th:href="@{/dashboard}">
-        Back to Dashboard
-    </a>
 
 </div>
 

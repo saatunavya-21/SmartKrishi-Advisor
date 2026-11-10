@@ -1,8 +1,9 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Available Produce - Smart Krishi Advisor</title>
 
     <style>
@@ -10,18 +11,35 @@
             font-family: Arial, sans-serif;
             background: #f0f5f0;
             padding: 30px;
+            color: #263b2a;
         }
 
-        h2 {
-            color: #176b35;
+        .container {
+            max-width: 950px;
+            margin: auto;
+        }
+
+        header {
+            background: #2e7d32;
+            color: white;
+            padding: 20px;
             text-align: center;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
         }
 
         table {
             width: 100%;
             background: white;
             border-collapse: collapse;
-            margin-top: 25px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         th, td {
@@ -31,23 +49,53 @@
         }
 
         th {
-            background: #176b35;
+            background: #2e7d32;
             color: white;
+            font-size: 14px;
         }
 
         tr:nth-child(even) {
-            background: #f2f7f2;
+            background: #f9fbf9;
         }
 
-        a {
-            color: #176b35;
+        .price-tag {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .badge-quality {
+            background: #e8f5e9;
+            color: #1b5e20;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            background: #2e7d32;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            background: #1b5e20;
         }
     </style>
 </head>
 
 <body>
 
-    <h2>🌾 Available Agricultural Produce</h2>
+<div class="container">
+
+    <header>
+        <h1>🌾 Available Farmer Produce Listings</h1>
+    </header>
 
     <table>
         <thead>
@@ -56,30 +104,34 @@
                 <th>Quantity</th>
                 <th>Unit</th>
                 <th>Expected Price</th>
-                <th>Quality</th>
+                <th>Quality Grade</th>
                 <th>Location</th>
             </tr>
         </thead>
 
         <tbody>
             <tr th:each="produce : ${produceList}">
-                <td th:text="${produce.cropName}"></td>
+                <td><strong th:text="${produce.cropName}"></strong></td>
                 <td th:text="${produce.quantity}"></td>
                 <td th:text="${produce.unit}"></td>
-                <td th:text="'₹' + ${produce.expectedPrice}"></td>
-                <td th:text="${produce.quality}"></td>
+                <td class="price-tag" th:text="'₹' + ${produce.expectedPrice}"></td>
+                <td><span class="badge-quality" th:text="${produce.quality}"></span></td>
                 <td th:text="${produce.location}"></td>
             </tr>
 
             <tr th:if="${#lists.isEmpty(produceList)}">
-                <td colspan="6">No produce listings available yet.</td>
+                <td colspan="6" style="padding:25px; color:#666;">
+                    No produce listings currently available from farmers. Please check back later.
+                </td>
             </tr>
         </tbody>
     </table>
 
-    <p>
-        <a th:href="@{/buyer/dashboard}">Back to Buyer Dashboard</a>
-    </p>
+    <div style="text-align:center;">
+        <a class="back-link" th:href="@{/buyer/dashboard}">← Back to Buyer Dashboard</a>
+    </div>
+
+</div>
 
 </body>
 </html>

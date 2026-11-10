@@ -1,28 +1,135 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Farmer Details</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Details - Smart Krishi Advisor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f5f0;
+            padding: 30px;
+            color: #263b2a;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: #176b35;
+            margin-top: 0;
+            font-size: 24px;
+            border-bottom: 2px solid #e8f5e9;
+            padding-bottom: 12px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .field {
+            background: #f8fbf8;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #e0eee0;
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .field span {
+            font-size: 15px;
+            font-weight: 600;
+            color: #263b2a;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            background: #176b35;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            background: #125228;
+        }
+    </style>
 </head>
-<body style="font-family:Arial; background:#f0f5f0; padding:30px;">
+<body>
 
-    <h1 style="color:#176b35;">Farmer Details</h1>
+<div class="container">
+    <h1>👨‍🌾 Registered Farmer Profile</h1>
 
-    <div style="background:white; padding:25px; border-radius:10px;">
+    <div class="grid">
+        <div class="field">
+            <label>Farmer ID</label>
+            <span th:text="${farmer.id}"></span>
+        </div>
 
-        <p><b>ID:</b> <span th:text="${farmer.id}"></span></p>
-        <p><b>Name:</b> <span th:text="${farmer.name}"></span></p>
-        <p><b>Email:</b> <span th:text="${farmer.email}"></span></p>
-        <p><b>Phone:</b> <span th:text="${farmer.phone}"></span></p>
-        <p><b>Village:</b> <span th:text="${farmer.village}"></span></p>
-        <p><b>District:</b> <span th:text="${farmer.district}"></span></p>
-        <p><b>State:</b> <span th:text="${farmer.state}"></span></p>
-        <p><b>Land Area:</b> <span th:text="${farmer.landArea}"></span></p>
-        <p><b>Soil Type:</b> <span th:text="${farmer.soilType}"></span></p>
+        <div class="field">
+            <label>Full Name</label>
+            <span th:text="${farmer.name}"></span>
+        </div>
 
-        <a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+        <div class="field">
+            <label>Email Address</label>
+            <span th:text="${farmer.email}"></span>
+        </div>
 
+        <div class="field">
+            <label>Phone Number</label>
+            <span th:text="${farmer.phone}"></span>
+        </div>
+
+        <div class="field">
+            <label>Village</label>
+            <span th:text="${farmer.village}"></span>
+        </div>
+
+        <div class="field">
+            <label>District</label>
+            <span th:text="${farmer.district}"></span>
+        </div>
+
+        <div class="field">
+            <label>State</label>
+            <span th:text="${farmer.state}"></span>
+        </div>
+
+        <div class="field">
+            <label>Land Holding</label>
+            <span th:text="${farmer.landArea} + ' Acres'"></span>
+        </div>
+
+        <div class="field" style="grid-column: span 2;">
+            <label>Soil Classification</label>
+            <span th:text="${farmer.soilType}"></span>
+        </div>
     </div>
+
+    <div style="text-align:center;">
+        <a class="back-link" th:href="@{/admin/dashboard}">← Back to Admin Dashboard</a>
+    </div>
+</div>
 
 </body>
 </html>

@@ -1,8 +1,9 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crop Recommendation - Smart Krishi Advisor</title>
 
     <style>
@@ -10,46 +11,103 @@
             font-family: Arial, sans-serif;
             background: #eef7ee;
             padding: 30px;
+            color: #263b2a;
         }
 
         .container {
-            max-width: 500px;
+            max-width: 550px;
             margin: auto;
             background: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 3px 12px #ccc;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
         }
 
         h2 {
-            color: green;
+            color: #176b35;
             text-align: center;
+            margin-top: 0;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 20px;
         }
 
         label {
             font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-size: 14px;
         }
 
         select {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0 20px;
+            padding: 11px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
         }
 
         button {
             width: 100%;
             padding: 12px;
-            background: green;
+            background: #176b35;
             color: white;
             border: none;
+            border-radius: 6px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 22px;
+        }
+
+        button:hover {
+            background: #125228;
         }
 
         .result {
-            background: #e5f5e5;
-            padding: 15px;
-            margin-top: 20px;
+            background: #eaf6ea;
+            padding: 20px;
+            margin-top: 25px;
             border-radius: 8px;
+            border-left: 4px solid #176b35;
+        }
+
+        .result h3 {
+            color: #176b35;
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .result ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .result li {
+            padding: 4px 0;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            background: #176b35;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            background: #125228;
         }
     </style>
 </head>
@@ -58,33 +116,35 @@
 
 <div class="container">
 
-    <h2>🌾 Crop Recommendation</h2>
+    <h2>🌾 Crop Recommendation Engine</h2>
+    <p class="subtitle">Select your farm conditions to discover optimal crop choices</p>
 
     <form th:action="@{/crop-recommendation}" method="post">
 
-        <label>Select Soil Type</label>
+        <label>Soil Type</label>
         <select name="soilType" required>
-            <option value="">Choose Soil</option>
-            <option value="Red Soil">Red Soil</option>
-            <option value="Black Soil">Black Soil</option>
-            <option value="Alluvial Soil">Alluvial Soil</option>
-            <option value="Sandy Soil">Sandy Soil</option>
+            <option value="">Select Soil Type</option>
+            <option value="Red Soil" th:selected="${soilType == 'Red Soil'}">Red Soil</option>
+            <option value="Black Soil" th:selected="${soilType == 'Black Soil'}">Black Soil</option>
+            <option value="Alluvial Soil" th:selected="${soilType == 'Alluvial Soil'}">Alluvial Soil</option>
+            <option value="Sandy Soil" th:selected="${soilType == 'Sandy Soil'}">Sandy Soil</option>
+            <option value="Clay Soil" th:selected="${soilType == 'Clay Soil'}">Clay Soil</option>
         </select>
 
-        <label>Select Farming Season</label>
+        <label>Farming Season</label>
         <select name="season" required>
-            <option value="">Choose Season</option>
-            <option value="Kharif">Kharif</option>
-            <option value="Rabi">Rabi</option>
-            <option value="Summer">Summer</option>
+            <option value="">Select Season</option>
+            <option value="Kharif" th:selected="${season == 'Kharif'}">Kharif (Monsoon)</option>
+            <option value="Rabi" th:selected="${season == 'Rabi'}">Rabi (Winter)</option>
+            <option value="Summer" th:selected="${season == 'Summer'}">Zaid / Summer</option>
         </select>
 
         <label>Water Availability</label>
         <select name="waterAvailability" required>
-            <option value="">Choose Water Availability</option>
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
+            <option value="">Select Water Availability</option>
+            <option value="Low" th:selected="${waterAvailability == 'Low'}">Low (Rainfed)</option>
+            <option value="Medium" th:selected="${waterAvailability == 'Medium'}">Medium (Partial Irrigation)</option>
+            <option value="High" th:selected="${waterAvailability == 'High'}">High (Assured Canal / Borewell)</option>
         </select>
 
         <button type="submit">Get Crop Recommendations</button>
@@ -93,35 +153,29 @@
 
     <div class="result" th:if="${crops != null}">
 
-        <h3>Recommended Crops</h3>
+        <h3>🌾 Recommended Suitable Crops:</h3>
 
-        <p>
-            Soil: <span th:text="${soilType}"></span>
-        </p>
+        <div style="font-size:13px; color:#555; margin-bottom:10px;">
+            Input: Soil: <strong th:text="${soilType}"></strong> | Season: <strong th:text="${season}"></strong> | Water: <strong th:text="${waterAvailability}"></strong>
+        </div>
 
-        <p>
-            Season: <span th:text="${season}"></span>
-        </p>
-
-        <ul>
-            <li th:each="crop : ${crops}"
-                th:text="${crop}">
-            </li>
+        <ul th:if="${not #lists.isEmpty(crops)}">
+            <li th:each="crop : ${crops}" th:text="${crop}"></li>
         </ul>
 
-        <p>
-            <small>
-                These are preliminary prototype suggestions.
-                Confirm crop suitability using local soil-test
-                results and agricultural expert advice.
-            </small>
+        <p th:if="${#lists.isEmpty(crops)}" style="color:#666;">
+            No specific staple crops matched this particular criteria. Consider consulting local Krishi Vigyan Kendra (KVK).
+        </p>
+
+        <p style="margin-top: 15px; font-size: 12px; color: #666; line-height: 1.5;">
+            ℹ️ Advisory Note: These are expert recommendations tailored for regional agricultural planning. Confirm specific seed varieties with local agricultural extension officers.
         </p>
 
     </div>
 
-    <p style="text-align:center;">
-        <a th:href="@{/dashboard}">Back to Dashboard</a>
-    </p>
+    <div style="text-align:center;">
+        <a class="back-link" th:href="${isLoggedIn} ? @{/dashboard} : @{/}">← <span th:text="${isLoggedIn} ? 'Back to Farmer Dashboard' : 'Back to Homepage'"></span></a>
+    </div>
 
 </div>
 

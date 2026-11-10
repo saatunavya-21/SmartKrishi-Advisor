@@ -1,27 +1,55 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Market Price Comparison</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Price Comparison - Smart Krishi Advisor</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #f0f5f0;
             padding: 30px;
+            color: #263b2a;
         }
 
-        h2 {
-            color: #176b35;
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        header {
+            background: #176b35;
+            color: white;
+            padding: 20px;
             text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .notice {
+            background: #e8f5e9;
+            border-left: 5px solid #176b35;
+            padding: 14px 18px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
         table {
             width: 100%;
             background: white;
             border-collapse: collapse;
-            margin-top: 25px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         th, td {
@@ -33,47 +61,76 @@
         th {
             background: #176b35;
             color: white;
+            font-size: 15px;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fbf9;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            background: #176b35;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            background: #125228;
         }
     </style>
 </head>
 
 <body>
 
-<h2>🌾 Market Price Comparison</h2>
+<div class="container">
 
-<table>
-    <thead>
-        <tr>
-            <th>Crop</th>
-            <th>Market</th>
-            <th>District</th>
-            <th>Price</th>
-            <th>Unit</th>
-        </tr>
-    </thead>
+    <header>
+        <h1>🌾 Agricultural Market Price Comparison</h1>
+    </header>
 
-    <tbody>
+    <div class="notice">
+        <strong>ℹ️ Reference Data Disclosure:</strong>
+        Market prices displayed below are agricultural reference rates maintained by administrators across major regional markets and mandis. They serve as comparative price benchmarks for farmers and buyers.
+    </div>
 
-        <tr th:each="item : ${prices}">
-            <td th:text="${item.cropName}"></td>
-            <td th:text="${item.marketName}"></td>
-            <td th:text="${item.district}"></td>
-            <td th:text="'₹' + ${item.price}"></td>
-            <td th:text="${item.unit}"></td>
-        </tr>
+    <table>
+        <thead>
+            <tr>
+                <th>Crop</th>
+                <th>Mandi / Market Name</th>
+                <th>District</th>
+                <th>Benchmark Price</th>
+                <th>Unit</th>
+            </tr>
+        </thead>
 
-        <tr th:if="${#lists.isEmpty(prices)}">
-            <td colspan="5">
-                No market prices are available yet.
-            </td>
-        </tr>
+        <tbody>
+            <tr th:each="item : ${prices}">
+                <td><strong th:text="${item.cropName}"></strong></td>
+                <td th:text="${item.marketName}"></td>
+                <td th:text="${item.district}"></td>
+                <td th:text="'₹' + ${item.price}" style="font-weight:bold; color:#176b35;"></td>
+                <td th:text="${item.unit}"></td>
+            </tr>
 
-    </tbody>
-</table>
+            <tr th:if="${#lists.isEmpty(prices)}">
+                <td colspan="5" style="padding:25px; color:#666;">
+                    No market reference prices are currently available.
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-<p style="text-align:center;">
-    <a th:href="@{/dashboard}">Back to Farmer Dashboard</a>
-</p>
+    <div style="text-align:center;">
+        <a class="back-link" th:href="${isLoggedIn} ? @{/dashboard} : @{/}">← <span th:text="${isLoggedIn} ? 'Back to Farmer Dashboard' : 'Back to Homepage'"></span></a>
+    </div>
+
+</div>
 
 </body>
 </html>

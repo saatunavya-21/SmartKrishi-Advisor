@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Agricultural Schemes - Smart Krishi Market Advisor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f3f8f1; color: #263b2a; }
+        header { background: #176b35; color: white; padding: 18px 8%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        header h2 { font-size: 24px; display: flex; align-items: center; gap: 8px; }
+        nav { display: flex; gap: 15px; align-items: center; }
+        nav a { color: white; text-decoration: none; font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 4px; transition: background 0.2s; }
+        nav a:hover { background: rgba(255,255,255,0.15); }
+        .hero-banner { background: linear-gradient(120deg, #176b35, #2e7d32); color: white; padding: 45px 8%; text-align: center; }
+        .hero-banner h1 { font-size: 32px; margin-bottom: 8px; }
+        .hero-banner p { font-size: 16px; opacity: 0.95; }
+        .container { max-width: 1100px; margin: 35px auto; padding: 0 20px; }
+        .schemes-list { display: flex; flex-direction: column; gap: 25px; }
+        .scheme-card { background: white; border-radius: 12px; border: 1px solid #dcebde; padding: 28px; box-shadow: 0 3px 12px rgba(0,0,0,0.05); border-left: 6px solid #176b35; transition: transform 0.2s; }
+        .scheme-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+        .scheme-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
+        .scheme-header h3 { color: #176b35; font-size: 22px; margin-top: 0; }
+        .ministry-tag { font-size: 12px; background: #e8f5e9; color: #1b5e20; padding: 4px 10px; border-radius: 4px; font-weight: bold; }
+        .scheme-desc { color: #444; font-size: 15px; line-height: 1.7; margin-bottom: 18px; }
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f9fbf9; padding: 16px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; }
+        @media (max-width: 768px) { .details-grid { grid-template-columns: 1fr; } }
+        .details-item strong { display: block; color: #176b35; margin-bottom: 4px; font-size: 13px; text-transform: uppercase; }
+        .apply-btn { display: inline-block; background: #176b35; color: white; padding: 10px 22px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; transition: background 0.2s; }
+        .apply-btn:hover { background: #125228; }
+        footer { background: #1b3d22; color: #c8e6c9; text-align: center; padding: 25px 8%; font-size: 14px; margin-top: 50px; }
+        footer a { color: #81c784; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>🌱 Smart Krishi Market Advisor</h2>
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/about}">About Us</a>
+        <a th:href="@{/crops}">Crop Info</a>
+        <a th:href="@{/crop-recommendation}">Recommendation</a>
+        <a th:href="@{/market-prices}">Market Prices</a>
+        <a th:href="@{/price-prediction}">Price Prediction</a>
+        <a th:href="@{/weather}">Weather</a>
+        <a th:href="@{/schemes}">Schemes</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/login}" style="background:white; color:#176b35; font-weight:bold;">Farmer Login</a>
+    </nav>
+</header>
+
+<div class="hero-banner">
+    <h1>🏛️ Official Central & State Agricultural Schemes</h1>
+    <p>Comprehensive verified catalog of subsidies, direct income support, crop insurance, and institutional credit.</p>
+</div>
+
+<div class="container">
+
+    <div class="schemes-list">
+        <div class="scheme-card" th:each="s : ${schemes}">
+            <div class="scheme-header">
+                <h3 th:text="${s.name}"></h3>
+                <span class="ministry-tag" th:text="${s.ministry}"></span>
+            </div>
+            <p class="scheme-desc" th:text="${s.description}"></p>
+
+            <div class="details-grid">
+                <div class="details-item">
+                    <strong>📋 Eligibility Criteria</strong>
+                    <span th:text="${s.eligibility}"></span>
+                </div>
+                <div class="details-item">
+                    <strong>🎁 Financial & Physical Benefits</strong>
+                    <span th:text="${s.benefits}"></span>
+                </div>
+            </div>
+
+            <a class="apply-btn" th:href="${s.officialUrl}" target="_blank" rel="noopener noreferrer">
+                Visit Official Government Portal ↗
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 Smart Krishi Market Advisor | Intelligent Farming & Agriculture Technology Platform 🌱</p>
+    <p style="margin-top: 8px;">
+        <a th:href="@{/}">Home</a> |
+        <a th:href="@{/about}">About Us</a> |
+        <a th:href="@{/crops}">Crop Info</a> |
+        <a th:href="@{/schemes}">Government Schemes</a> |
+        <a th:href="@{/contact}">Contact</a>
+    </p>
+</footer>
+
+</body>
+</html>
+

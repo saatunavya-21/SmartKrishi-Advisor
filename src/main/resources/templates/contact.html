@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Smart Krishi Market Advisor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f3f8f1; color: #263b2a; }
+        header { background: #176b35; color: white; padding: 18px 8%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        header h2 { font-size: 24px; display: flex; align-items: center; gap: 8px; }
+        nav { display: flex; gap: 15px; align-items: center; }
+        nav a { color: white; text-decoration: none; font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 4px; transition: background 0.2s; }
+        nav a:hover { background: rgba(255,255,255,0.15); }
+        .hero-banner { background: linear-gradient(120deg, #176b35, #2e7d32); color: white; padding: 50px 8%; text-align: center; }
+        .hero-banner h1 { font-size: 34px; margin-bottom: 10px; }
+        .hero-banner p { font-size: 16px; opacity: 0.95; }
+        .container { max-width: 1050px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 30px; }
+        @media (max-width: 800px) { .container { grid-template-columns: 1fr; } }
+        .info-card { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 3px 12px rgba(0,0,0,0.06); }
+        .info-card h3 { color: #176b35; margin-bottom: 18px; font-size: 20px; border-bottom: 2px solid #e1efe1; padding-bottom: 8px; }
+        .contact-item { margin-bottom: 18px; line-height: 1.6; }
+        .contact-item strong { display: block; color: #176b35; font-size: 14px; margin-bottom: 3px; }
+        .helpline-box { background: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 8px; padding: 16px; margin-top: 20px; }
+        .helpline-box h4 { color: #2e7d32; margin-bottom: 6px; font-size: 16px; }
+        .helpline-box p { font-size: 14px; color: #1b5e20; }
+        .form-card { background: white; border-radius: 12px; padding: 35px; box-shadow: 0 3px 12px rgba(0,0,0,0.06); }
+        .form-card h3 { color: #176b35; margin-bottom: 20px; font-size: 22px; }
+        label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; margin-top: 14px; color: #333; }
+        input, select, textarea { width: 100%; padding: 11px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; font-family: inherit; }
+        textarea { resize: vertical; min-height: 110px; }
+        button { width: 100%; padding: 13px; background: #176b35; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 20px; transition: background 0.2s; }
+        button:hover { background: #125228; }
+        .alert-success { background: #d4edda; color: #155724; padding: 14px; border-radius: 6px; margin-bottom: 20px; font-weight: 500; text-align: center; }
+        .alert-error { background: #f8d7da; color: #721c24; padding: 14px; border-radius: 6px; margin-bottom: 20px; font-weight: 500; text-align: center; }
+        footer { background: #1b3d22; color: #c8e6c9; text-align: center; padding: 25px 8%; font-size: 14px; margin-top: 50px; }
+        footer a { color: #81c784; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>🌱 Smart Krishi Market Advisor</h2>
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/about}">About Us</a>
+        <a th:href="@{/crops}">Crop Info</a>
+        <a th:href="@{/crop-recommendation}">Recommendation</a>
+        <a th:href="@{/market-prices}">Market Prices</a>
+        <a th:href="@{/price-prediction}">Price Prediction</a>
+        <a th:href="@{/weather}">Weather</a>
+        <a th:href="@{/schemes}">Schemes</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/login}" style="background:white; color:#176b35; font-weight:bold;">Farmer Login</a>
+    </nav>
+</header>
+
+<div class="hero-banner">
+    <h1>Contact Our Agricultural Advisory Team</h1>
+    <p>Reach out for support, crop assistance, mandi price inquiries, or technical help.</p>
+</div>
+
+<div class="container">
+
+    <div class="info-card">
+        <h3>📍 Direct Help & Inquiries</h3>
+
+        <div class="contact-item">
+            <strong>Headquarters Address</strong>
+            Smart Krishi Agriculture Information Centre<br>
+            Krishi Bhawan Complex, Sector 4<br>
+            Hyderabad, Telangana 500081, India
+        </div>
+
+        <div class="contact-item">
+            <strong>Email Support</strong>
+            support@smartkrishi.com<br>
+            advisory@smartkrishi.com
+        </div>
+
+        <div class="contact-item">
+            <strong>Operating Hours</strong>
+            Monday – Saturday: 8:00 AM – 7:00 PM IST<br>
+            Sunday: Emergency Agrometeorology Hotline only
+        </div>
+
+        <div class="helpline-box">
+            <h4>📞 National Kisan Call Center</h4>
+            <p>Toll-Free Agricultural Support: <strong>1800-180-1551</strong></p>
+            <p style="margin-top:6px; font-size:12px; color:#2e7d32;">24x7 government assistance for crop diseases, weather anomalies, and mandi pricing.</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <h3>💬 Send Us a Message</h3>
+
+        <div th:if="${successMessage}" class="alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert-error" th:text="${errorMessage}"></div>
+
+        <form th:action="@{/contact}" method="post">
+            <label>Full Name *</label>
+            <input type="text" name="name" placeholder="Enter your full name" required>
+
+            <label>Email Address *</label>
+            <input type="email" name="email" placeholder="e.g. farmer@example.com" required>
+
+            <label>Mobile Number</label>
+            <input type="tel" name="phone" placeholder="e.g. 9876543210">
+
+            <label>Subject</label>
+            <select name="subject">
+                <option value="Crop Recommendation Query">Crop Recommendation Query</option>
+                <option value="Mandi Price Discrepancy">Mandi Price Discrepancy</option>
+                <option value="Government Scheme Application">Government Scheme Application</option>
+                <option value="Marketplace Produce Listing">Marketplace Produce Listing</option>
+                <option value="Technical Website Assistance">Technical Website Assistance</option>
+            </select>
+
+            <label>Message / Description *</label>
+            <textarea name="message" placeholder="Describe your question or farming inquiry in detail..." required></textarea>
+
+            <button type="submit">Submit Message</button>
+        </form>
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 Smart Krishi Market Advisor | Intelligent Farming & Agriculture Technology Platform 🌱</p>
+    <p style="margin-top: 8px;">
+        <a th:href="@{/}">Home</a> |
+        <a th:href="@{/about}">About Us</a> |
+        <a th:href="@{/contact}">Contact</a> |
+        <a th:href="@{/schemes}">Government Schemes</a> |
+        <a th:href="@{/admin/login}">Admin Login</a>
+    </p>
+</footer>
+
+</body>
+</html>
+

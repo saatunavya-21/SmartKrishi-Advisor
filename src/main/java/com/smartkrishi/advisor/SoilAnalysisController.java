@@ -36,13 +36,23 @@ public class SoilAnalysisController {
         }
 
         String condition;
+        String recommendation;
 
         if (ph < 5.5) {
-            condition = "Acidic Soil";
+            condition = "Strongly Acidic Soil (pH < 5.5)";
+            recommendation = "Apply agricultural lime (calcium carbonate) or dolomite to raise soil pH. Enhance organic matter through farmyard manure.";
+        } else if (ph <= 6.5) {
+            condition = "Moderately Acidic to Near-Neutral Soil (pH 5.5 - 6.5)";
+            recommendation = "Good nutrient availability for most cereal and pulse crops. Maintain organic carbon with compost.";
         } else if (ph <= 7.5) {
-            condition = "Near-Neutral Soil";
+            condition = "Optimal Neutral Soil (pH 6.5 - 7.5)";
+            recommendation = "Ideal balanced soil condition. Maximum nutrient absorption efficiency for phosphorus, nitrogen, and micronutrients.";
+        } else if (ph <= 8.5) {
+            condition = "Moderately Alkaline / Calcareous Soil (pH 7.5 - 8.5)";
+            recommendation = "Apply agricultural gypsum and organic green manure. Ensure zinc and iron micronutrient foliar application.";
         } else {
-            condition = "Alkaline Soil";
+            condition = "Strongly Alkaline / Sodic Soil (pH > 8.5)";
+            recommendation = "Requires soil reclamation using gypsum, pyrite, and deep tillage with leaching. Grow salt-tolerant varieties.";
         }
 
         model.addAttribute("soilType", soilType);
@@ -51,6 +61,7 @@ public class SoilAnalysisController {
         model.addAttribute("phosphorus", phosphorus);
         model.addAttribute("potassium", potassium);
         model.addAttribute("condition", condition);
+        model.addAttribute("recommendation", recommendation);
 
         return "soil-analysis";
     }

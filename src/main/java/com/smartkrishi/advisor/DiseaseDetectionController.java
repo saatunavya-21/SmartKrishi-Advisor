@@ -32,23 +32,30 @@ public class DiseaseDetectionController {
             return "redirect:/login";
         }
 
-        String result;
+        String diagnosis;
+        String actionPlan;
 
-        if (symptoms.equals("Yellow Leaves")) {
-            result = "Yellow leaves can be associated with nutrient deficiency, water stress or disease. Further inspection is needed.";
-        } else if (symptoms.equals("Brown Spots")) {
-            result = "Brown spots may be associated with fungal or bacterial leaf problems. Inspect the affected leaves carefully.";
-        } else if (symptoms.equals("Wilting")) {
-            result = "Wilting may be caused by water stress, root problems or disease. Check soil moisture and plant roots.";
-        } else if (symptoms.equals("White Powder")) {
-            result = "White powder-like growth may indicate powdery mildew. Seek local agricultural guidance for confirmation.";
+        if ("Yellow Leaves".equalsIgnoreCase(symptoms)) {
+            diagnosis = "Nitrogen Deficiency, Iron Chlorosis, or Early Viral Infection (e.g., Yellow Mosaic / Leaf Curl Virus).";
+            actionPlan = "Verify soil drainage. For nutrient deficiency, apply foliar spray of Urea (1-2%) or Ferrous Sulphate (0.5%). If accompanied by leaf curling, control sucking insect vectors (whiteflies/aphids) with Neem seed kernel extract (NSKE 5%).";
+        } else if ("Brown Spots".equalsIgnoreCase(symptoms)) {
+            diagnosis = "Fungal Foliar Leaf Spot (e.g., Helminthosporium / Cercospora Leaf Spot or Rice Blast).";
+            actionPlan = "Remove and destroy heavily infected lower leaves to restrict fungal spore spread. Avoid overhead sprinkler irrigation. If infection progresses rapidly, apply Trichoderma viride bio-fungicide or consult local Krishi Kendra for registered fungicides.";
+        } else if ("Wilting".equalsIgnoreCase(symptoms)) {
+            diagnosis = "Vascular Wilt (Fusarium / Verticillium) or Bacterial Wilt, or Nematode Root-Knot Infestation.";
+            actionPlan = "Inspect root zone for discoloration or rot. Drench root zone with copper oxychloride (0.3%) or Pseudomonas fluorescens culture. Ensure proper soil aeration and avoid excessive waterlogging.";
+        } else if ("White Powder".equalsIgnoreCase(symptoms)) {
+            diagnosis = "Powdery Mildew (Erysiphe / Leveillula fungal complex).";
+            actionPlan = "Apply Wettable Sulphur (0.2%) spray or potassium bicarbonate solution during cooler morning hours. Thin out dense canopy to enhance air movement and sunlight penetration.";
         } else {
-            result = "Select a symptom for basic plant health information.";
+            diagnosis = "Unspecified plant distress condition.";
+            actionPlan = "Collect plant sample in clean bag and present to nearest Krishi Vigyan Kendra (KVK) or Assistant Agricultural Officer (AAO).";
         }
 
         model.addAttribute("crop", crop);
         model.addAttribute("symptoms", symptoms);
-        model.addAttribute("result", result);
+        model.addAttribute("result", diagnosis);
+        model.addAttribute("actionPlan", actionPlan);
 
         return "disease-detection";
     }

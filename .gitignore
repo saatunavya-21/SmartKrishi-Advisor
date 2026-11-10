@@ -4,7 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+### STS / Eclipse ###
 .apt_generated
 .classpath
 .factorypath
@@ -12,6 +12,13 @@ target/
 .settings
 .springBeans
 .sts4-cache
+.metadata/
+*.lnk
+
+### Git portable / local scripts ###
+mingit/
+mingit.zip
+start-public-url.bat
 
 ### IntelliJ IDEA ###
 .idea

@@ -1,6 +1,9 @@
 package com.smartkrishi.advisor;
 
 import com.smartkrishi.advisor.repository.FarmerRepository;
+import com.smartkrishi.advisor.repository.BuyerRepository;
+import com.smartkrishi.advisor.repository.ProduceRepository;
+import com.smartkrishi.advisor.repository.CropDemandRepository;
 import com.smartkrishi.advisor.repository.FeedbackRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -17,6 +20,15 @@ public class AdminController {
     private FarmerRepository farmerRepository;
 
     @Autowired
+    private BuyerRepository buyerRepository;
+
+    @Autowired
+    private ProduceRepository produceRepository;
+
+    @Autowired
+    private CropDemandRepository cropDemandRepository;
+
+    @Autowired
     private FeedbackRepository feedbackRepository;
 
     @GetMapping("/admin/dashboard")
@@ -31,6 +43,18 @@ public class AdminController {
         model.addAttribute(
                 "totalFarmers",
                 farmerRepository.count());
+
+        model.addAttribute(
+                "totalBuyers",
+                buyerRepository.count());
+
+        model.addAttribute(
+                "totalProduce",
+                produceRepository.count());
+
+        model.addAttribute(
+                "totalDemands",
+                cropDemandRepository.count());
 
         model.addAttribute(
                 "totalFeedback",

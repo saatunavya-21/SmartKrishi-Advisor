@@ -2,6 +2,7 @@ package com.smartkrishi.advisor;
 
 import jakarta.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AdminLoginController {
+
+    @Value("${admin.email:admin@smartkrishi.com}")
+    private String configuredAdminEmail;
+
+    @Value("${admin.password:Admin@123}")
+    private String configuredAdminPassword;
 
     @GetMapping("/admin/login")
     public String showAdminLogin() {
@@ -23,13 +30,15 @@ public class AdminLoginController {
             HttpSession session,
             Model model) {
 
-        String adminEmail = System.getenv("ADMIN_EMAIL");
-        String adminPassword = System.getenv("ADMIN_PASSWORD");
-        System.out.println("Admin email configured: " + (adminEmail != null));
-        System.out.println("Admin password configured: " + (adminPassword != null));
-        if (adminEmail != null && adminPassword != null
-                && adminEmail.equals(email)
-                && adminPassword.equals(password)) {
+        String envEmail = System.getenv("ADMIN_EMAIL");
+        String envPassword = System.getenv("ADMIN_PASSWORD");
+
+        String expectedEmail = (envEmail != null && !envEmail.isBlank()) ? envEmail : configuredAdminEmail;
+        String expectedPassword = (envPassword != null && !envPassword.isBlank()) ? envPassword : configuredAdminPassword;
+
+        if (expectedEmail != null && expectedPassword != null
+                && expectedEmail.equalsIgnoreCase(email.trim())
+                && expectedPassword.equals(password)) {
 
             session.setAttribute("adminLoggedIn", true);
 
@@ -46,6 +55,7 @@ public class AdminLoginController {
     public String adminLogout(HttpSession session) {
 
         session.removeAttribute("adminLoggedIn");
+        session.invalidate();
 
         return "redirect:/admin/login";
     }

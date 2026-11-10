@@ -1,4 +1,3 @@
-
 package com.smartkrishi.advisor;
 
 import java.util.ArrayList;
@@ -14,12 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class CropRecommendationController {
 
     @GetMapping("/crop-recommendation")
-    public String showCropForm(HttpSession session) {
-
-        if (session.getAttribute("farmerId") == null) {
-            return "redirect:/login";
-        }
-
+    public String showCropForm(HttpSession session, Model model) {
+        model.addAttribute("isLoggedIn", session.getAttribute("farmerId") != null);
         return "crop-recommendation";
     }
 
@@ -31,40 +26,61 @@ public class CropRecommendationController {
             Model model,
             HttpSession session) {
 
-        if (session.getAttribute("farmerId") == null) {
-            return "redirect:/login";
-        }
-
+        model.addAttribute("isLoggedIn", session.getAttribute("farmerId") != null);
         List<String> crops = new ArrayList<>();
 
-        if (soilType.equals("Black Soil")) {
+        if ("Black Soil".equalsIgnoreCase(soilType)) {
             crops.add("Cotton");
             crops.add("Soybean");
-            crops.add("Sorghum");
-        }
-        else if (soilType.equals("Red Soil")) {
-            crops.add("Groundnut");
-            crops.add("Millets");
-            crops.add("Pigeon Pea");
-        }
-        else if (soilType.equals("Alluvial Soil")) {
-            crops.add("Maize");
-            crops.add("Pulses");
-
-            if (waterAvailability.equals("High")) {
-                crops.add("Paddy");
+            crops.add("Sorghum (Jowar)");
+            if ("Kharif".equalsIgnoreCase(season)) {
+                crops.add("Pigeon Pea (Arhar)");
             }
         }
-        else if (soilType.equals("Sandy Soil")) {
-            crops.add("Pearl Millet");
+        else if ("Red Soil".equalsIgnoreCase(soilType)) {
             crops.add("Groundnut");
-            crops.add("Cluster Bean");
+            crops.add("Finger Millet (Ragi)");
+            crops.add("Pigeon Pea");
+            if ("High".equalsIgnoreCase(waterAvailability)) {
+                crops.add("Maize");
+            }
+        }
+        else if ("Alluvial Soil".equalsIgnoreCase(soilType)) {
+            if ("Kharif".equalsIgnoreCase(season)) {
+                crops.add("Rice (Paddy)");
+                crops.add("Maize");
+                crops.add("Sugarcane");
+            } else if ("Rabi".equalsIgnoreCase(season)) {
+                crops.add("Wheat");
+                crops.add("Mustard");
+                crops.add("Chickpea (Gram)");
+            } else {
+                crops.add("Green Gram (Moong)");
+                crops.add("Watermelon / Vegetables");
+            }
+        }
+        else if ("Sandy Soil".equalsIgnoreCase(soilType)) {
+            crops.add("Pearl Millet (Bajra)");
+            crops.add("Cluster Bean (Guar)");
+            crops.add("Groundnut");
+        }
+        else if ("Clay Soil".equalsIgnoreCase(soilType)) {
+            crops.add("Rice (Paddy)");
+            crops.add("Sugarcane");
+            if ("Rabi".equalsIgnoreCase(season)) {
+                crops.add("Wheat");
+            }
         }
 
-        model.addAttribute("crops", crops);
+        if (crops.isEmpty()) {
+            crops.add("Millets (Bajra / Jowar)");
+            crops.add("Pulses (Moong / Urad)");
+        }
+
         model.addAttribute("soilType", soilType);
         model.addAttribute("season", season);
         model.addAttribute("waterAvailability", waterAvailability);
+        model.addAttribute("crops", crops);
 
         return "crop-recommendation";
     }

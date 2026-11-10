@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -52,113 +51,111 @@
 
 <body>
 
-<h2>📊 Smart Krishi Advisor - Admin Reports</h2>
+    <h2>📊 Smart Krishi Advisor - Admin Reports</h2>
 
-<div class="container">
+    <div class="container">
 
-    <div class="card">
-        <h3>👨‍🌾 Total Farmers</h3>
-        <p class="number" th:text="${totalFarmers}"></p>
+        <div class="card">
+            <h3>👨‍🌾 Total Farmers</h3>
+            <p class="number" th:text="${totalFarmers}"></p>
+        </div>
+
+        <div class="card">
+            <h3>🛒 Total Buyers</h3>
+            <p class="number" th:text="${totalBuyers}"></p>
+        </div>
+
+        <div class="card">
+            <h3>🌾 Produce Listings</h3>
+            <p class="number" th:text="${totalProduce}"></p>
+        </div>
+
+        <div class="card">
+            <h3>📋 Buyer Demands</h3>
+            <p class="number" th:text="${totalDemand}"></p>
+        </div>
+
+        <div class="card">
+            <h3>⭐ Feedback Records</h3>
+            <p class="number" th:text="${totalFeedback}"></p>
+        </div>
+
+        <div class="card">
+            <h3>💰 Market Price Records</h3>
+            <p class="number" th:text="${totalMarketPrices}"></p>
+        </div>
+
     </div>
 
-    <div class="card">
-        <h3>🛒 Total Buyers</h3>
-        <p class="number" th:text="${totalBuyers}"></p>
-    </div>
+    <a class="back" th:href="@{/admin/dashboard}">
+        Back to Admin Dashboard
+    </a>
 
-    <div class="card">
-        <h3>🌾 Produce Listings</h3>
-        <p class="number" th:text="${totalProduce}"></p>
-    </div>
-
-    <div class="card">
-        <h3>📋 Buyer Demands</h3>
-        <p class="number" th:text="${totalDemand}"></p>
-    </div>
-
-    <div class="card">
-        <h3>⭐ Feedback Records</h3>
-        <p class="number" th:text="${totalFeedback}"></p>
-    </div>
-
-    <div class="card">
-        <h3>💰 Market Price Records</h3>
-        <p class="number" th:text="${totalMarketPrices}"></p>
-    </div>
-
-</div>
-
-<a class="back" th:href="@{/admin/dashboard}">
-    Back to Admin Dashboard
-</a>
-
-<div style="background:white; padding:25px; margin-top:35px;
+    <div style="background:white; padding:25px; margin-top:35px;
             border-radius:12px;">
 
-    <h2>📈 Platform Statistics Chart</h2>
+        <h2>📈 Platform Statistics Chart</h2>
 
-    <canvas id="reportChart"></canvas>
+        <canvas id="reportChart"></canvas>
 
-</div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script th:inline="javascript">
+    <script th:inline="javascript">
 
-    const reportLabels = [
-        "Farmers",
-        "Buyers",
-        "Produce",
-        "Demands",
-        "Feedback",
-        "Market Prices"
-    ];
+        const reportLabels = [
+            "Farmers",
+            "Buyers",
+            "Produce",
+            "Demands",
+            "Feedback",
+            "Market Prices"
+        ];
 
-    const reportValues = [
-        [[${totalFarmers}]],
-        [[${totalBuyers}]],
-        [[${totalProduce}]],
-        [[${totalDemand}]],
-        [[${totalFeedback}]],
-        [[${totalMarketPrices}]]
-    ];
+        const reportValues = [
+            [[${ totalFarmers }]],
+            [[${ totalBuyers }]],
+            [[${ totalProduce }]],
+            [[${ totalDemand }]],
+            [[${ totalFeedback }]],
+            [[${ totalMarketPrices }]]
+        ];
 
-    new Chart(document.getElementById("reportChart"), {
-        type: "bar",
+        new Chart(document.getElementById("reportChart"), {
+            type: "bar",
 
-        data: {
-            labels: reportLabels,
+            data: {
+                labels: reportLabels,
 
-            datasets: [{
-                label: "Total Records",
-                data: reportValues,
-                backgroundColor: [
-                    "#176b35",
-                    "#36a2eb",
-                    "#ffce56",
-                    "#ff6384",
-                    "#9966ff",
-                    "#4bc0c0"
-                ]
-            }]
-        },
+                datasets: [{
+                    label: "Total Records",
+                    data: reportValues,
+                    backgroundColor: [
+                        "#176b35",
+                        "#36a2eb",
+                        "#ffce56",
+                        "#ff6384",
+                        "#9966ff",
+                        "#4bc0c0"
+                    ]
+                }]
+            },
 
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        precision: 0
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
                     }
                 }
             }
-        }
-    });
+        });
 
-</script>
+    </script>
 </body>
-</html>
 
-</body>
 </html>

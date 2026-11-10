@@ -1,5 +1,5 @@
 -- =====================================================================
--- SMART KRISHI ADVISOR - DATABASE SCHEMA SETUP SCRIPT
+-- SMART KRISHI MARKET ADVISOR - DATABASE SCHEMA SETUP SCRIPT
 -- Compatible with MySQL 8.0+
 -- =====================================================================
 
@@ -84,3 +84,11 @@ CREATE TABLE IF NOT EXISTS `feedback` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Initial Benchmark Market Price Seed Data
+INSERT IGNORE INTO `market_prices` (`id`, `crop_name`, `market_name`, `district`, `price`, `unit`) VALUES
+(1, 'Wheat', 'Central Mandi', 'Karnal', 2450.0, 'Quintal'),
+(2, 'Paddy (Basmati)', 'City Grain Market', 'Amritsar', 3850.0, 'Quintal'),
+(3, 'Cotton', 'Cotton Market Yard', 'Warangal', 7150.0, 'Quintal'),
+(4, 'Soybean', 'Agri Mandi', 'Indore', 4620.0, 'Quintal'),
+(5, 'Tomato', 'APMC Yard', 'Nashik', 2100.0, 'Quintal'),
+(6, 'Maize', 'District Mandi', 'Nagpur', 2180.0, 'Quintal');

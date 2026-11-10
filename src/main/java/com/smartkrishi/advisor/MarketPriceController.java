@@ -1,4 +1,3 @@
-
 package com.smartkrishi.advisor;
 
 import com.smartkrishi.advisor.repository.MarketPriceRepository;
@@ -20,10 +19,7 @@ public class MarketPriceController {
     public String showMarketPrices(
             HttpSession session, Model model) {
 
-        if (session.getAttribute("farmerId") == null) {
-            return "redirect:/login";
-        }
-
+        model.addAttribute("isLoggedIn", session.getAttribute("farmerId") != null);
         model.addAttribute("prices",
                 marketPriceRepository.findAll());
 

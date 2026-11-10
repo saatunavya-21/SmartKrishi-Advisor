@@ -1,30 +1,59 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Market Price Report</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Price Report - Smart Krishi Advisor</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #f0f5f0;
             padding: 30px;
+            color: #263b2a;
         }
 
-        h2 {
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        header {
+            background: #176b35;
+            color: white;
+            padding: 20px;
             text-align: center;
-            color: #176b35;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .notice {
+            background: #e8f5e9;
+            border-left: 5px solid #176b35;
+            padding: 14px 18px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            margin-top: 25px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
-        th, td {
+        th,
+        td {
             padding: 14px;
             border: 1px solid #ddd;
             text-align: center;
@@ -33,44 +62,91 @@
         th {
             background: #176b35;
             color: white;
+            font-size: 15px;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fbf9;
+        }
+
+        .price-low {
+            color: #198754;
+            font-weight: bold;
+        }
+
+        .price-high {
+            color: #d63384;
+            font-weight: bold;
+        }
+
+        .price-avg {
+            color: #0d6efd;
+            font-weight: bold;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            background: #176b35;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            background: #125228;
         }
     </style>
 </head>
 
 <body>
 
-<h2>📊 Crop Market Price Report</h2>
+    <div class="container">
 
-<table>
-    <thead>
-        <tr>
-            <th>Crop and Unit</th>
-            <th>Lowest Price (₹)</th>
-            <th>Highest Price (₹)</th>
-            <th>Average Price (₹)</th>
-        </tr>
-    </thead>
+        <header>
+            <h1>📊 Agricultural Market Price Summary Report</h1>
+        </header>
 
-    <tbody>
-        <tr th:each="entry : ${report}">
-            <td th:text="${entry.key}"></td>
+        <div class="notice">
+            <strong>ℹ️ Reference Data Disclosure:</strong>
+            This price summary calculates statistical minimum, maximum, and average rates across recorded administrative
+            benchmark mandi data for each crop and standard unit.
+        </div>
 
-            <td th:text="${entry.value[2]}"></td>
+        <table>
+            <thead>
+                <tr>
+                    <th>Crop & Unit Specification</th>
+                    <th>Lowest Benchmark (₹)</th>
+                    <th>Highest Benchmark (₹)</th>
+                    <th>Average Benchmark (₹)</th>
+                </tr>
+            </thead>
 
-            <td th:text="${entry.value[3]}"></td>
+            <tbody>
+                <tr th:each="entry : ${report}">
+                    <td><strong th:text="${entry.key}"></strong></td>
+                    <td class="price-low" th:text="'₹' + ${entry.value[2]}"></td>
+                    <td class="price-high" th:text="'₹' + ${entry.value[3]}"></td>
+                    <td class="price-avg"
+                        th:text="'₹' + ${#numbers.formatDecimal(entry.value[1] / entry.value[0], 1, 2)}"></td>
+                </tr>
 
-            <td th:text="${#numbers.formatDecimal(entry.value[1] / entry.value[0], 1, 2)}"></td>
-        </tr>
+                <tr th:if="${#maps.isEmpty(report)}">
+                    <td colspan="4" style="padding:25px; color:#666;">No market reference price records available for
+                        statistical calculation.</td>
+                </tr>
+            </tbody>
+        </table>
 
-        <tr th:if="${#maps.isEmpty(report)}">
-            <td colspan="4">No market price records available.</td>
-        </tr>
-    </tbody>
-</table>
+        <div style="text-align:center;">
+            <a class="back-link" th:href="@{/dashboard}">← Back to Farmer Dashboard</a>
+        </div>
 
-<p style="text-align:center;">
-    <a th:href="@{/dashboard}">Back to Farmer Dashboard</a>
-</p>
+    </div>
 
 </body>
+
 </html>

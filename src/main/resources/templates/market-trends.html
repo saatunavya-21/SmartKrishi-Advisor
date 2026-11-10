@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Trend Analysis - Smart Krishi Market Advisor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f3f8f1; color: #263b2a; }
+        header { background: #176b35; color: white; padding: 18px 8%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        header h2 { font-size: 24px; display: flex; align-items: center; gap: 8px; }
+        nav { display: flex; gap: 15px; align-items: center; }
+        nav a { color: white; text-decoration: none; font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 4px; transition: background 0.2s; }
+        nav a:hover { background: rgba(255,255,255,0.15); }
+        .hero-banner { background: linear-gradient(120deg, #176b35, #2e7d32); color: white; padding: 45px 8%; text-align: center; }
+        .hero-banner h1 { font-size: 32px; margin-bottom: 8px; }
+        .hero-banner p { font-size: 16px; opacity: 0.95; }
+        .container { max-width: 1150px; margin: 30px auto; padding: 0 20px; }
+        .trend-table-box { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 3px 12px rgba(0,0,0,0.06); }
+        .filter-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        select { padding: 9px 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #e8f0e8; }
+        th { background: #e8f5e9; color: #176b35; font-weight: 600; }
+        tr:hover { background: #fbfdfb; }
+        .badge { padding: 4px 10px; border-radius: 12px; font-weight: bold; font-size: 12px; display: inline-block; }
+        .badge-up { background: #d4edda; color: #155724; }
+        .badge-down { background: #f8d7da; color: #721c24; }
+        .badge-stable { background: #e2e3e5; color: #383d41; }
+        .advice-cell { font-size: 13px; color: #555; }
+        footer { background: #1b3d22; color: #c8e6c9; text-align: center; padding: 25px 8%; font-size: 14px; margin-top: 50px; }
+        footer a { color: #81c784; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>🌱 Smart Krishi Market Advisor</h2>
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/about}">About Us</a>
+        <a th:href="@{/crops}">Crop Info</a>
+        <a th:href="@{/crop-recommendation}">Recommendation</a>
+        <a th:href="@{/market-prices}">Market Prices</a>
+        <a th:href="@{/price-prediction}">Price Prediction</a>
+        <a th:href="@{/market-trends}">Market Trends</a>
+        <a th:href="@{/weather}">Weather</a>
+        <a th:href="@{/schemes}">Schemes</a>
+        <a th:href="@{/login}" style="background:white; color:#176b35; font-weight:bold;">Farmer Login</a>
+    </nav>
+</header>
+
+<div class="hero-banner">
+    <h1>📊 Mandi Market Trend Analysis & Selling Strategy</h1>
+    <p>Track regional price momentum, month-on-month shifts, and strategic guidance on when to hold or sell produce.</p>
+</div>
+
+<div class="container">
+
+    <div class="trend-table-box">
+        <div class="filter-bar">
+            <h3 style="color:#176b35; margin:0;">Commodity Price Trends Across Key Mandis</h3>
+            <form th:action="@{/market-trends}" method="get" style="display:flex; gap:10px; align-items:center;">
+                <label style="font-size:14px; color:#555;">Filter by District:</label>
+                <select name="district" onchange="this.form.submit()">
+                    <option value="All" th:selected="${selectedDistrict == 'All'}">All Districts</option>
+                    <option value="Karnal" th:selected="${selectedDistrict == 'Karnal'}">Karnal</option>
+                    <option value="Amritsar" th:selected="${selectedDistrict == 'Amritsar'}">Amritsar</option>
+                    <option value="Nagpur" th:selected="${selectedDistrict == 'Nagpur'}">Nagpur</option>
+                    <option value="Indore" th:selected="${selectedDistrict == 'Indore'}">Indore</option>
+                    <option value="Nashik" th:selected="${selectedDistrict == 'Nashik'}">Nashik</option>
+                    <option value="Lasalgaon" th:selected="${selectedDistrict == 'Lasalgaon'}">Lasalgaon</option>
+                    <option value="Warangal" th:selected="${selectedDistrict == 'Warangal'}">Warangal</option>
+                    <option value="Jaipur" th:selected="${selectedDistrict == 'Jaipur'}">Jaipur</option>
+                </select>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Crop / Commodity</th>
+                    <th>Mandi Name</th>
+                    <th>District</th>
+                    <th>Previous Month</th>
+                    <th>Current Price</th>
+                    <th>Trend Shift</th>
+                    <th>Actionable Farmer Advisory</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="t : ${trends}">
+                    <td><strong th:text="${t.crop}"></strong></td>
+                    <td th:text="${t.mandi}"></td>
+                    <td th:text="${t.district}"></td>
+                    <td>₹<span th:text="${t.lastMonthPrice}"></span></td>
+                    <td><strong style="color:#176b35;">₹<span th:text="${t.currentPrice}"></span></strong></td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${t.trendDirection == 'Up'} ? 'badge-up' : (${t.trendDirection == 'Down'} ? 'badge-down' : 'badge-stable')">
+                            <span th:text="${t.diffPercent > 0 ? '+' : ''}"></span><span th:text="${t.diffPercent}"></span>%
+                            (<span th:text="${t.trendDirection}"></span>)
+                        </span>
+                    </td>
+                    <td class="advice-cell" th:text="${t.advice}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top:25px; padding:15px; background:#f9fbf9; border-left:4px solid #176b35; border-radius:6px; font-size:13.5px; color:#444;">
+            <strong>🌾 Advisory Tip:</strong> Commodities showing sustained upward momentum (>5%) with stable arrivals are suitable for phased selling over 2-3 week intervals to capture peak mandi prices.
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 Smart Krishi Market Advisor | Intelligent Farming & Agriculture Technology Platform 🌱</p>
+    <p style="margin-top: 8px;">
+        <a th:href="@{/}">Home</a> |
+        <a th:href="@{/market-prices}">Market Prices</a> |
+        <a th:href="@{/price-prediction}">Price Prediction</a> |
+        <a th:href="@{/market-trends}">Market Trends</a> |
+        <a th:href="@{/contact}">Contact</a>
+    </p>
+</footer>
+
+</body>
+</html>
+

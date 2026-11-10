@@ -1,30 +1,59 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Demand and Supply Analysis</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demand and Supply Analysis - Smart Krishi Advisor</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #f0f5f0;
             padding: 30px;
+            color: #263b2a;
         }
 
-        h2 {
-            color: #176b35;
+        .container {
+            max-width: 950px;
+            margin: auto;
+        }
+
+        header {
+            background: #176b35;
+            color: white;
+            padding: 20px;
             text-align: center;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .info-card {
+            background: #e8f5e9;
+            border-left: 5px solid #176b35;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
         table {
             width: 100%;
-            margin-top: 30px;
             border-collapse: collapse;
             background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
-        th, td {
+        th,
+        td {
             padding: 14px;
             border: 1px solid #ddd;
             text-align: center;
@@ -33,74 +62,113 @@
         th {
             background: #176b35;
             color: white;
+            font-size: 15px;
         }
 
-        .surplus {
-            color: green;
+        tr:nth-child(even) {
+            background: #f9fbf9;
+        }
+
+        .surplus-badge {
+            background: #d4edda;
+            color: #155724;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .shortage-badge {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .balanced-badge {
+            background: #e2e3e5;
+            color: #383d41;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 25px;
+            background: #176b35;
+            color: white;
+            padding: 10px 22px;
+            text-decoration: none;
+            border-radius: 6px;
             font-weight: bold;
         }
 
-        .shortage {
-            color: red;
-            font-weight: bold;
+        .back-btn:hover {
+            background: #125228;
         }
     </style>
 </head>
 
 <body>
 
-<h2>📊 Demand and Supply Analysis</h2>
+    <div class="container">
 
-<table>
-    <thead>
-        <tr>
-            <th>Crop</th>
-            <th>Farmer Supply</th>
-            <th>Buyer Demand</th>
-            <th>Difference</th>
-            <th>Status</th>
-        </tr>
-    </thead>
+        <header>
+            <h1>📊 Crop Demand and Supply Analysis</h1>
+        </header>
 
-    <tbody>
+        <div class="info-card">
+            <strong>⚖️ Normalization Notice:</strong>
+            All crop names are normalized across listings and demands. For mathematical accuracy and fair comparison,
+            all quantities are converted to a standardized unit of <strong>Quintals (q)</strong> (where 1 Quintal = 100
+            Kilograms).
+        </div>
 
-        <tr th:each="entry : ${allCrops}">
+        <table>
+            <thead>
+                <tr>
+                    <th>Crop</th>
+                    <th>Farmer Supply (Quintals)</th>
+                    <th>Buyer Demand (Quintals)</th>
+                    <th>Difference (Supply − Demand)</th>
+                    <th>Market Status</th>
+                </tr>
+            </thead>
 
-            <td th:text="${entry.key}"></td>
+            <tbody>
+                <tr th:each="item : ${analysisList}">
+                    <td><strong th:text="${item.cropName}"></strong></td>
+                    <td th:text="${item.supplyQuintals} + ' q'"></td>
+                    <td th:text="${item.demandQuintals} + ' q'"></td>
+                    <td
+                        th:text="${item.differenceQuintals > 0 ? '+' + item.differenceQuintals : item.differenceQuintals} + ' q'">
+                    </td>
+                    <td>
+                        <span th:if="${item.status == 'Surplus'}" class="surplus-badge">Surplus (+<span
+                                th:text="${item.differenceQuintals}"></span> q)</span>
+                        <span th:if="${item.status == 'Shortage'}" class="shortage-badge">Shortage (<span
+                                th:text="${item.differenceQuintals}"></span> q)</span>
+                        <span th:if="${item.status == 'Balanced'}" class="balanced-badge">Balanced</span>
+                    </td>
+                </tr>
 
-            <td th:text="${supply.getOrDefault(entry.key, 0.0)}"></td>
+                <tr th:if="${#lists.isEmpty(analysisList)}">
+                    <td colspan="5" style="padding:25px; color:#666;">No crop produce or demand records available for
+                        analysis.</td>
+                </tr>
+            </tbody>
+        </table>
 
-            <td th:text="${demand.getOrDefault(entry.key, 0.0)}"></td>
+        <div style="text-align:center;">
+            <a class="back-btn" th:href="@{/admin/dashboard}">← Back to Admin Dashboard</a>
+        </div>
 
-            <td th:text="${supply.getOrDefault(entry.key, 0.0) - demand.getOrDefault(entry.key, 0.0)}"></td>
-
-            <td th:with="
-                difference=${supply.getOrDefault(entry.key, 0.0) - demand.getOrDefault(entry.key, 0.0)}">
-
-                <span th:if="${difference > 0}"
-                      class="surplus">Surplus</span>
-
-                <span th:if="${difference < 0}"
-                      class="shortage">Shortage</span>
-
-                <span th:if="${difference == 0}">
-                    Balanced
-                </span>
-
-            </td>
-
-        </tr>
-
-        <tr th:if="${#maps.isEmpty(allCrops)}">
-            <td colspan="5">No demand or supply records available.</td>
-        </tr>
-
-    </tbody>
-</table>
-
-<p style="text-align:center;">
-    <a th:href="@{/admin/dashboard}">Back to Admin Dashboard</a>
-</p>
+    </div>
 
 </body>
+
 </html>

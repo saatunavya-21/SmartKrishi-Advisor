@@ -54,6 +54,7 @@ public class BuyerLoginController {
     public String buyerLogout(HttpSession session) {
         session.removeAttribute("buyerId");
         session.removeAttribute("buyerName");
+        session.invalidate();
 
         return "redirect:/buyer/login";
     }

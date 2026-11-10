@@ -1,68 +1,123 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Disease Detection - Smart Krishi Advisor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Information - Smart Krishi Advisor</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #eef7ee;
             padding: 30px;
+            color: #263b2a;
         }
 
         .container {
             max-width: 650px;
             margin: auto;
             background: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 3px 12px #ccc;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
         }
 
         h2 {
             text-align: center;
-            color: green;
+            color: #176b35;
+            margin-top: 0;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
             margin-top: 15px;
             font-weight: bold;
+            font-size: 14px;
         }
 
         select {
             width: 100%;
             padding: 10px;
-            margin-top: 7px;
+            margin-top: 6px;
             box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 6px;
+            font-size: 14px;
         }
 
         button {
             width: 100%;
             padding: 12px;
             margin-top: 22px;
-            background: #198754;
+            background: #176b35;
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #125228;
         }
 
         .result {
-            background: #e5f5e5;
-            padding: 18px;
-            margin-top: 22px;
+            background: #eaf6ea;
+            padding: 20px;
+            margin-top: 25px;
             border-radius: 8px;
+            border-left: 5px solid #176b35;
+        }
+
+        .result h3 {
+            margin-top: 0;
+            color: #176b35;
+            font-size: 18px;
+        }
+
+        .diagnosis-box {
+            background: white;
+            padding: 14px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border: 1px solid #d4edda;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .action-box {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 14px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
         .back {
-            display: block;
-            text-align: center;
+            display: inline-block;
             margin-top: 20px;
+            background: #176b35;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            background: #125228;
         }
     </style>
 </head>
@@ -71,62 +126,62 @@
 
 <div class="container">
 
-    <h2>🌿 Plant Disease Information</h2>
-
-    <p>Select your crop and the symptom you observe.</p>
+    <h2>🌿 Plant Health & Disease Information</h2>
+    <p class="subtitle">Select your crop and observed field symptoms for agronomic guidance</p>
 
     <form th:action="@{/disease-detection}" method="post">
 
         <label>Crop Type</label>
         <select name="crop" required>
             <option value="">Select Crop</option>
-            <option value="Rice">Rice</option>
-            <option value="Cotton">Cotton</option>
-            <option value="Maize">Maize</option>
-            <option value="Groundnut">Groundnut</option>
-            <option value="Tomato">Tomato</option>
+            <option value="Rice" th:selected="${crop == 'Rice'}">Rice (Paddy)</option>
+            <option value="Cotton" th:selected="${crop == 'Cotton'}">Cotton</option>
+            <option value="Maize" th:selected="${crop == 'Maize'}">Maize</option>
+            <option value="Groundnut" th:selected="${crop == 'Groundnut'}">Groundnut</option>
+            <option value="Tomato" th:selected="${crop == 'Tomato'}">Tomato / Vegetables</option>
+            <option value="Pulses" th:selected="${crop == 'Pulses'}">Pulses (Redgram / Bengalgram)</option>
         </select>
 
-        <label>Plant Symptoms</label>
+        <label>Observed Plant Symptoms</label>
         <select name="symptoms" required>
-            <option value="">Select Symptoms</option>
-            <option value="Yellow Leaves">Yellow Leaves</option>
-            <option value="Brown Spots">Brown Spots</option>
-            <option value="Wilting">Wilting</option>
-            <option value="White Powder">White Powder</option>
+            <option value="">Select Visible Symptom</option>
+            <option value="Yellow Leaves" th:selected="${symptoms == 'Yellow Leaves'}">Yellowing of Leaves (Chlorosis)</option>
+            <option value="Brown Spots" th:selected="${symptoms == 'Brown Spots'}">Brown Necrotic Spots / Leaf Blight</option>
+            <option value="Wilting" th:selected="${symptoms == 'Wilting'}">Sudden Wilting / Drooping Foliage</option>
+            <option value="White Powder" th:selected="${symptoms == 'White Powder'}">White Powdery Coating on Leaf Surfaces</option>
         </select>
 
-        <button type="submit">Check Symptoms</button>
+        <button type="submit">Check Disease Symptoms</button>
 
     </form>
 
     <div class="result" th:if="${result != null}">
 
-        <h3>🌱 Plant Health Information</h3>
+        <h3>🌾 Preliminary Health Assessment:</h3>
 
-        <p>Crop:
-            <strong th:text="${crop}"></strong>
+        <div style="font-size:13px; color:#555; margin-bottom:10px;">
+            Target Crop: <strong th:text="${crop}"></strong> | Observed Symptom: <strong th:text="${symptoms}"></strong>
+        </div>
+
+        <div class="diagnosis-box">
+            <strong>Probable Disorder:</strong>
+            <p style="margin:5px 0 0;" th:text="${result}"></p>
+        </div>
+
+        <div class="action-box" th:if="${actionPlan != null}">
+            <strong>🛡️ Recommended Agronomic Action:</strong>
+            <p style="margin:5px 0 0;" th:text="${actionPlan}"></p>
+        </div>
+
+        <p style="margin-top: 15px; font-size: 12px; color: #666; line-height: 1.5;">
+            ⚠️ Diagnostic Notice: This symptom checker provides preliminary agricultural education. Always confirm diagnoses with local agricultural extension officers before applying synthetic chemical pesticides.
         </p>
-
-        <p>Selected Symptom:
-            <strong th:text="${symptoms}"></strong>
-        </p>
-
-        <h3>Possible Explanation</h3>
-
-        <p th:text="${result}"></p>
-
-        <small>
-            This is not a confirmed diagnosis.
-            Consult a local agricultural officer
-            before choosing any treatment.
-        </small>
 
     </div>
 
-    <a class="back" th:href="@{/dashboard}">
-        Back to Dashboard
-    </a>
+    <div style="text-align:center;">
+        <a class="back" th:href="@{/dashboard}">← Back to Farmer Dashboard</a>
+    </div>
 
 </div>
 

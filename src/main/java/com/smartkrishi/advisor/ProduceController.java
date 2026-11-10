@@ -1,4 +1,3 @@
-
 package com.smartkrishi.advisor;
 
 import com.smartkrishi.advisor.entity.Produce;
@@ -10,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 public class ProduceController {
@@ -18,11 +20,15 @@ public class ProduceController {
     private ProduceRepository produceRepository;
 
     @GetMapping("/produce/add")
-    public String showProduceForm(HttpSession session) {
+    public String showProduceForm(HttpSession session, Model model) {
 
-        if (session.getAttribute("farmerId") == null) {
+        Long farmerId = (Long) session.getAttribute("farmerId");
+        if (farmerId == null) {
             return "redirect:/login";
         }
+
+        List<Produce> myProduceList = produceRepository.findByFarmerId(farmerId);
+        model.addAttribute("myProduceList", myProduceList);
 
         return "add-produce";
     }
@@ -36,7 +42,7 @@ public class ProduceController {
             @RequestParam String quality,
             @RequestParam String location,
             HttpSession session,
-            Model model) {
+            RedirectAttributes redirectAttributes) {
 
         Long farmerId = (Long) session.getAttribute("farmerId");
 
@@ -44,27 +50,50 @@ public class ProduceController {
             return "redirect:/login";
         }
 
-        if (quantity <= 0 || expectedPrice <= 0) {
-            model.addAttribute("message",
-                    "Quantity and price must be greater than zero.");
-            return "add-produce";
+        if (cropName.isBlank() || location.isBlank() || quantity <= 0 || expectedPrice <= 0) {
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "Please fill all fields. Quantity and expected price must be greater than zero.");
+            return "redirect:/produce/add";
         }
 
         Produce produce = new Produce();
-
         produce.setFarmerId(farmerId);
-        produce.setCropName(cropName);
+        produce.setCropName(cropName.trim());
         produce.setQuantity(quantity);
-        produce.setUnit(unit);
+        produce.setUnit(unit.trim());
         produce.setExpectedPrice(expectedPrice);
-        produce.setQuality(quality);
-        produce.setLocation(location);
+        produce.setQuality(quality.trim());
+        produce.setLocation(location.trim());
 
         produceRepository.save(produce);
 
-        model.addAttribute("message",
+        redirectAttributes.addFlashAttribute("message",
                 "Produce listed successfully!");
 
-        return "add-produce";
+        return "redirect:/produce/add";
+    }
+
+    @PostMapping("/produce/delete/{id}")
+    public String deleteMyProduce(
+            @PathVariable Long id,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        Long farmerId = (Long) session.getAttribute("farmerId");
+        if (farmerId == null) {
+            return "redirect:/login";
+        }
+
+        Produce produce = produceRepository.findById(id).orElse(null);
+        if (produce != null && produce.getFarmerId().equals(farmerId)) {
+            produceRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("message",
+                    "Produce listing removed successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "Produce listing not found or unauthorized!");
+        }
+
+        return "redirect:/produce/add";
     }
 }

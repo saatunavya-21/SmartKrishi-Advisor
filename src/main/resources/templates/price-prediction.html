@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Price Prediction - Smart Krishi Market Advisor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f3f8f1; color: #263b2a; }
+        header { background: #176b35; color: white; padding: 18px 8%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        header h2 { font-size: 24px; display: flex; align-items: center; gap: 8px; }
+        nav { display: flex; gap: 15px; align-items: center; }
+        nav a { color: white; text-decoration: none; font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 4px; transition: background 0.2s; }
+        nav a:hover { background: rgba(255,255,255,0.15); }
+        .hero-banner { background: linear-gradient(120deg, #176b35, #2e7d32); color: white; padding: 45px 8%; text-align: center; }
+        .hero-banner h1 { font-size: 32px; margin-bottom: 8px; }
+        .hero-banner p { font-size: 16px; opacity: 0.95; }
+        .container { max-width: 1050px; margin: 30px auto; padding: 0 20px; }
+        .form-box { background: white; border-radius: 12px; padding: 28px; box-shadow: 0 3px 10px rgba(0,0,0,0.06); margin-bottom: 30px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; align-items: flex-end; }
+        label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; color: #333; }
+        select { width: 100%; padding: 11px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; background: white; }
+        button { width: 100%; padding: 12px; background: #176b35; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; transition: background 0.2s; }
+        button:hover { background: #125228; }
+        .result-box { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 3px 12px rgba(0,0,0,0.06); border-top: 4px solid #176b35; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+        .metric-card { background: #f8fbf8; border: 1px solid #e0eee0; border-radius: 8px; padding: 16px; text-align: center; }
+        .metric-card small { display: block; color: #666; font-size: 12px; text-transform: uppercase; margin-bottom: 6px; font-weight: bold; }
+        .metric-card strong { font-size: 24px; color: #176b35; }
+        .trend-badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 14px; margin-top: 6px; }
+        .trend-up { background: #d4edda; color: #155724; }
+        .trend-down { background: #f8d7da; color: #721c24; }
+        .history-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+        .history-table th, .history-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #eee; }
+        .history-table th { background: #e8f5e9; color: #176b35; }
+        .disclaimer { background: #fff8e1; border-left: 4px solid #ffa000; padding: 14px; border-radius: 6px; font-size: 13px; color: #5d4037; margin-top: 25px; line-height: 1.6; }
+        footer { background: #1b3d22; color: #c8e6c9; text-align: center; padding: 25px 8%; font-size: 14px; margin-top: 50px; }
+        footer a { color: #81c784; text-decoration: none; margin: 0 8px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>🌱 Smart Krishi Market Advisor</h2>
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/about}">About Us</a>
+        <a th:href="@{/crops}">Crop Info</a>
+        <a th:href="@{/crop-recommendation}">Recommendation</a>
+        <a th:href="@{/market-prices}">Market Prices</a>
+        <a th:href="@{/price-prediction}">Price Prediction</a>
+        <a th:href="@{/market-trends}">Market Trends</a>
+        <a th:href="@{/weather}">Weather</a>
+        <a th:href="@{/schemes}">Schemes</a>
+        <a th:href="@{/login}" style="background:white; color:#176b35; font-weight:bold;">Farmer Login</a>
+    </nav>
+</header>
+
+<div class="hero-banner">
+    <h1>📈 Crop Mandi Price Forecast & Trend Model</h1>
+    <p>Statistical pricing forecasts based on mandi arrival patterns, seasonal demand, and historical benchmark baselines.</p>
+</div>
+
+<div class="container">
+
+    <div class="form-box">
+        <form th:action="@{/price-prediction}" method="get">
+            <div class="form-grid">
+                <div>
+                    <label>Select Commodity / Crop *</label>
+                    <select name="crop" required>
+                        <option value="">-- Choose Crop --</option>
+                        <option th:each="c : ${cropList}" th:value="${c}" th:text="${c}" th:selected="${c == selectedCrop}"></option>
+                    </select>
+                </div>
+                <div>
+                    <label>Target Market District *</label>
+                    <select name="district" required>
+                        <option value="">-- Choose District --</option>
+                        <option th:each="d : ${districtList}" th:value="${d}" th:text="${d}" th:selected="${d == selectedDistrict}"></option>
+                    </select>
+                </div>
+                <div>
+                    <label>Forecast Horizon</label>
+                    <select name="period">
+                        <option th:each="p : ${periodList}" th:value="${p}" th:text="${p}" th:selected="${p == selectedPeriod}"></option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit">Calculate Prediction</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div th:if="${prediction != null}" class="result-box">
+        <h2 style="color:#176b35; margin-bottom:6px;">
+            Forecast Results for <span th:text="${prediction.crop}"></span> in <span th:text="${prediction.district}"></span>
+        </h2>
+        <p style="color:#666; font-size:14px; margin-bottom:20px;">
+            Prediction Window: <strong th:text="${prediction.period}"></strong>
+        </p>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <small>Current Baseline</small>
+                <strong>₹<span th:text="${prediction.currentBenchmark}"></span> / Qtl</strong>
+            </div>
+            <div class="metric-card" style="border:2px solid #176b35; background:#e8f5e9;">
+                <small>Forecasted Expected</small>
+                <strong style="color:#176b35;">₹<span th:text="${prediction.predictedExpected}"></span> / Qtl</strong>
+            </div>
+            <div class="metric-card">
+                <small>Expected Range</small>
+                <strong style="font-size:18px;">₹<span th:text="${prediction.predictedMin}"></span> - ₹<span th:text="${prediction.predictedMax}"></span></strong>
+            </div>
+            <div class="metric-card">
+                <small>Projected Shift</small>
+                <span class="trend-badge" th:classappend="${prediction.percentChange >= 0} ? 'trend-up' : 'trend-down'">
+                    <span th:text="${prediction.percentChange >= 0 ? '+' : ''}"></span><span th:text="${prediction.percentChange}"></span>% (<span th:text="${prediction.trend}"></span>)
+                </span>
+            </div>
+        </div>
+
+        <div style="background:#f9fcf9; border-radius:8px; padding:18px; margin-top:20px; border-left:4px solid #2e7d32;">
+            <h4 style="color:#176b35; margin-bottom:8px;">💡 Econometric Analysis & Market Dynamics</h4>
+            <p style="font-size:14px; line-height:1.7; color:#444;" th:text="${prediction.explanation}"></p>
+        </div>
+
+        <h3 style="color:#176b35; margin-top:25px; margin-bottom:12px;">📊 Recent Mandi Price Baseline History</h3>
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Time Interval</th>
+                    <th>Average Realized Price (₹/Quintal)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pt : ${prediction.history}">
+                    <td th:text="${pt.month}"></td>
+                    <td><strong>₹<span th:text="${pt.price}"></span></strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="disclaimer">
+            <strong>⚠️ Scientific Transparency & Policy Disclaimer:</strong> All projected prices are algorithmic estimates computed from recent mandi arrival moving averages and seasonal trade volume patterns. These projections are intended for informational planning only and do not constitute guaranteed prices or contractual trade commitments.
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 Smart Krishi Market Advisor | Intelligent Farming & Agriculture Technology Platform 🌱</p>
+    <p style="margin-top: 8px;">
+        <a th:href="@{/}">Home</a> |
+        <a th:href="@{/market-prices}">Market Prices</a> |
+        <a th:href="@{/price-prediction}">Price Prediction</a> |
+        <a th:href="@{/market-trends}">Market Trends</a> |
+        <a th:href="@{/contact}">Contact</a>
+    </p>
+</footer>
+
+</body>
+</html>
+

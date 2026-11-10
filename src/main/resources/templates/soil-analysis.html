@@ -1,158 +1,197 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Soil Analysis - Smart Krishi Advisor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soil Nutrient Analysis - Smart Krishi Advisor</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #eef7ee;
             padding: 30px;
+            color: #263b2a;
         }
 
         .container {
             max-width: 650px;
             margin: auto;
             background: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 3px 12px #ccc;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
         }
 
         h2 {
             text-align: center;
-            color: green;
+            color: #176b35;
+            margin-top: 0;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-top: 15px;
+            margin-top: 14px;
             font-weight: bold;
+            font-size: 14px;
         }
 
-        input, select {
+        input,
+        select {
             width: 100%;
             padding: 10px;
-            margin-top: 7px;
+            margin-top: 6px;
             box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 6px;
+            font-size: 14px;
         }
 
         button {
             width: 100%;
             padding: 12px;
             margin-top: 22px;
-            background: #198754;
+            background: #176b35;
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #125228;
         }
 
         .result {
-            background: #e5f5e5;
-            padding: 18px;
-            margin-top: 22px;
+            background: #eaf6ea;
+            padding: 20px;
+            margin-top: 25px;
             border-radius: 8px;
+            border-left: 5px solid #176b35;
+        }
+
+        .result h3 {
+            margin-top: 0;
+            color: #176b35;
+            font-size: 18px;
+        }
+
+        .grid-data {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .grid-data div {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #d4edda;
+        }
+
+        .recommendation {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
         .back {
-            display: block;
-            text-align: center;
+            display: inline-block;
             margin-top: 20px;
+            background: #176b35;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            background: #125228;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h2>🌱 Soil Analysis</h2>
+        <h2>🌱 Soil Nutrient & pH Analysis</h2>
+        <p class="subtitle">Enter your soil laboratory test values for scientific condition assessment</p>
 
-    <p>Enter your soil test values below.</p>
+        <form th:action="@{/soil-analysis}" method="post">
 
-    <form th:action="@{/soil-analysis}" method="post">
+            <label>Soil Type</label>
+            <select name="soilType" required>
+                <option value="">Select Soil Type</option>
+                <option value="Red Soil" th:selected="${soilType == 'Red Soil'}">Red Soil</option>
+                <option value="Black Soil" th:selected="${soilType == 'Black Soil'}">Black Soil</option>
+                <option value="Alluvial Soil" th:selected="${soilType == 'Alluvial Soil'}">Alluvial Soil</option>
+                <option value="Sandy Soil" th:selected="${soilType == 'Sandy Soil'}">Sandy Soil</option>
+                <option value="Clay Soil" th:selected="${soilType == 'Clay Soil'}">Clay Soil</option>
+            </select>
 
-        <label>Soil Type</label>
-        <select name="soilType" required>
-            <option value="">Select Soil Type</option>
-            <option value="Red Soil">Red Soil</option>
-            <option value="Black Soil">Black Soil</option>
-            <option value="Alluvial Soil">Alluvial Soil</option>
-            <option value="Sandy Soil">Sandy Soil</option>
-            <option value="Clay Soil">Clay Soil</option>
-        </select>
+            <label>Soil pH (0 - 14)</label>
+            <input type="number" name="ph" min="0" max="14" step="0.1" th:value="${ph}" placeholder="e.g. 6.8" required>
 
-        <label>Soil pH</label>
-        <input type="number" name="ph"
-               min="0" max="14" step="0.1"
-               placeholder="Example: 6.5" required>
+            <label>Available Nitrogen (N) (kg/ha)</label>
+            <input type="number" name="nitrogen" min="0" step="0.1" th:value="${nitrogen}" placeholder="e.g. 240.0"
+                required>
 
-        <label>Nitrogen (N)</label>
-        <input type="number" name="nitrogen"
-               min="0" step="0.1"
-               placeholder="Enter lab test value" required>
+            <label>Available Phosphorus (P) (kg/ha)</label>
+            <input type="number" name="phosphorus" min="0" step="0.1" th:value="${phosphorus}" placeholder="e.g. 18.5"
+                required>
 
-        <label>Phosphorus (P)</label>
-        <input type="number" name="phosphorus"
-               min="0" step="0.1"
-               placeholder="Enter lab test value" required>
+            <label>Available Potassium (K) (kg/ha)</label>
+            <input type="number" name="potassium" min="0" step="0.1" th:value="${potassium}" placeholder="e.g. 280.0"
+                required>
 
-        <label>Potassium (K)</label>
-        <input type="number" name="potassium"
-               min="0" step="0.1"
-               placeholder="Enter lab test value" required>
+            <button type="submit">Analyze Soil Health</button>
 
-        <button type="submit">Analyze Soil</button>
+        </form>
 
-    </form>
+        <div class="result" th:if="${condition != null}">
 
-    <div class="result" th:if="${condition != null}">
+            <h3>📊 Soil Health Assessment:</h3>
 
-        <h3>Soil Analysis Result</h3>
+            <div class="grid-data">
+                <div>Soil Type: <strong th:text="${soilType}"></strong></div>
+                <div>Measured pH: <strong th:text="${ph}"></strong></div>
+                <div>Nitrogen (N): <strong th:text="${nitrogen} + ' kg/ha'"></strong></div>
+                <div>Phosphorus (P): <strong th:text="${phosphorus} + ' kg/ha'"></strong></div>
+                <div>Potassium (K): <strong th:text="${potassium} + ' kg/ha'"></strong></div>
+                <div>Status: <strong th:text="${condition}"></strong></div>
+            </div>
 
-        <p>Soil Type:
-            <strong th:text="${soilType}"></strong>
-        </p>
+            <div class="recommendation" th:if="${recommendation != null}">
+                <strong>🌾 Agronomic Management Guidance:</strong>
+                <p style="margin:5px 0 0;" th:text="${recommendation}"></p>
+            </div>
 
-        <p>pH Value:
-            <strong th:text="${ph}"></strong>
-        </p>
+        </div>
 
-        <p>Nitrogen:
-            <strong th:text="${nitrogen}"></strong>
-        </p>
-
-        <p>Phosphorus:
-            <strong th:text="${phosphorus}"></strong>
-        </p>
-
-        <p>Potassium:
-            <strong th:text="${potassium}"></strong>
-        </p>
-
-        <h3>Soil Condition</h3>
-
-        <p th:text="${condition}"></p>
-
-        <small>
-            This is a basic pH-based classification.
-            For accurate nutrient interpretation, use
-            laboratory reference values and local
-            agricultural recommendations.
-        </small>
+        <div style="text-align:center;">
+            <a class="back" th:href="@{/dashboard}">← Back to Farmer Dashboard</a>
+        </div>
 
     </div>
 
-    <a class="back" th:href="@{/dashboard}">
-        Back to Dashboard
-    </a>
-
-</div>
-
 </body>
+
 </html>
