@@ -14,12 +14,12 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
-# Copy built JAR from builder stage
+# Copy built JAR from builder stage to both app.jar and target/ jar path
 COPY --from=build /app/target/smart-krishi-advisor-0.0.1-SNAPSHOT.jar app.jar
+RUN mkdir -p target && cp app.jar target/smart-krishi-advisor-0.0.1-SNAPSHOT.jar
 
 # Expose standard port
 EXPOSE 8080
 
 # Run Spring Boot app with dynamic PORT environment variable (required by Render & Railway)
 ENTRYPOINT ["sh", "-c", "java -Dserver.port=${PORT:-8080} -Djava.security.egd=file:/dev/./urandom -jar app.jar"]
-
